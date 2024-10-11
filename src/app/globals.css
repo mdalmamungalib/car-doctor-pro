@@ -1,33 +1,41 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+.button {
+  @apply border-[#FF3811] hover:border-[#FF3811] bg-[#FF3811] hover:bg-[#FF3811] text-white px-5 py-3 rounded hover:scale-105 focus:outline-none focus:ring-opacity-50;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.button-outline {
+  @apply px-5 py-3 text-[#FF3811] transform border border-[#FF3811] rounded hover:scale-105 focus:outline-none focus:ring-opacity-50 hover:bg-[#FF3811] hover:text-white font-semibold;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+h4 {
+  @apply text-xl font-bold text-[#FF3811];
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+h2 {
+  @apply text-[45px] font-bold text-[#151515];
 }
+
+h6 {
+  @apply text-[#737373] text-center font-normal text-[16px] leading-[30px] capitalize;
+}
+
+label {
+  @apply text-[18px] text-[#444] font-semibold;
+}
+
+.active-nav::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #ff3811;
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+}
+
+
+@import "tailwindcss/utilities";
