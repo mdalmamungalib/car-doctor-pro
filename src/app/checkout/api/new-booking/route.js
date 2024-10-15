@@ -1,5 +1,5 @@
 import { connectDB } from "lib/connectDB";
-
+export const dynamic = "force-dynamic";
 export const POST = async (request) => {
   try {
     const booking = await request.json();

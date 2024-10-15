@@ -1,21 +1,17 @@
 "use client";
 import { RxCross2 } from "react-icons/rx";
-import { PiArrowBendUpLeftBold } from "react-icons/pi";
-import { RiDeleteBin5Line, RiUserAddFill } from "react-icons/ri";
+import { RiUserAddFill } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 import { ImFacebook2 } from "react-icons/im";
 import { FaSquareGithub } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-
-import Link from "next/link";
 import { useSession } from "next-auth/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import axiosSecure from "lib/axios";
 import Swal from "sweetalert2";
+export const dynamic = "force-dynamic";
 
 const Page = () => {
   const { data: session } = useSession();
@@ -175,7 +171,7 @@ const Page = () => {
             User Details
           </h1>
           <p className="text-base font-medium text-[#FF3811] mt-2">
-          Dashboard - User Details
+            Dashboard - User Details
           </p>
         </div>
       </div>

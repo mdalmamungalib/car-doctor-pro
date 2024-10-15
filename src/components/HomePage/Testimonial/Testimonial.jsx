@@ -10,81 +10,68 @@ import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import HeadLayout from "components/shared/HeadLayout";
+import { useQuery } from "@tanstack/react-query";
+import axiosSecure from "lib/axios";
+import LoadingPage from "components/LoadingPage/LoadingPage";
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
+export const dynamic = "force-dynamic";
 
 const Testimonial = () => {
-  const testimonials = [
-    {
-      name: "John Doe",
-      productName: "Premium Headphones",
-      description:
-        "These headphones are fantastic! The sound quality is exceptional, and they're incredibly comfortable to wear for long periods. Highly recommend them!",
-      ratingValue: 4,
-      userImage:
-        "https://images.pexels.com/photos/28578372/pexels-photo-28578372/free-photo-of-portrait-of-senior-man-with-beard-and-chain.jpeg?auto=compress&cs=tinysrgb&w=600",
+  const {
+    data: testimonials = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["testimonials"],
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/api/get-testimonial`);
+      return response.data;
     },
-    {
-      name: "Jane Smith",
-      productName: "Smart Watch",
-      description:
-        "I love this smartwatch. It has all the features I need and looks great on my wrist. The battery life is impressive too.",
-      ratingValue: 5,
-      userImage:
-        "https://images.pexels.com/photos/28578372/pexels-photo-28578372/free-photo-of-portrait-of-senior-man-with-beard-and-chain.jpeg?auto=compress&cs=tinysrgb&w=600",
-    },
-    {
-      name: "Alice Johnson",
-      productName: "Yoga Mat",
-      description:
-        "This yoga mat is perfect for my daily workouts. It provides great cushioning and grip. The color options are also a nice touch!",
-      ratingValue: 3,
-      userImage:
-        "https://images.pexels.com/photos/28578372/pexels-photo-28578372/free-photo-of-portrait-of-senior-man-with-beard-and-chain.jpeg?auto=compress&cs=tinysrgb&w=600",
-    },
-    {
-      name: "Michael Brown",
-      productName: "Bluetooth Speaker",
-      description:
-        "The sound quality of this Bluetooth speaker is top-notch. It's portable and has a long battery life. Ideal for both home and outdoor use.",
-      ratingValue: 4,
-      userImage:
-        "https://images.pexels.com/photos/28578372/pexels-photo-28578372/free-photo-of-portrait-of-senior-man-with-beard-and-chain.jpeg?auto=compress&cs=tinysrgb&w=600",
-    },
-    {
-      name: "Emily Davis",
-      productName: "Fitness Tracker",
-      description:
-        "This fitness tracker is a game-changer. It accurately tracks my workouts and provides insightful health metrics. The design is sleek and modern.",
-      ratingValue: 5,
-      userImage:
-        "https://images.pexels.com/photos/28578372/pexels-photo-28578372/free-photo-of-portrait-of-senior-man-with-beard-and-chain.jpeg?auto=compress&cs=tinysrgb&w=600",
-    },
-    {
-      name: "William Harris",
-      productName: "Electric Toothbrush",
-      description:
-        "The electric toothbrush has significantly improved my oral hygiene. It has multiple brushing modes and a long-lasting battery. Worth every penny!",
-      ratingValue: 4,
-      userImage:
-        "https://images.pexels.com/photos/28578372/pexels-photo-28578372/free-photo-of-portrait-of-senior-man-with-beard-and-chain.jpeg?auto=compress&cs=tinysrgb&w=600",
-    },
-  ];
+  });
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const swiperRef = useRef(null);
-  
+
+  // Initialize Swiper navigation
   useEffect(() => {
     if (swiperRef.current) {
       const swiperInstance = swiperRef.current.swiper;
 
+      // Ensure navigation buttons are set correctly
       swiperInstance.params.navigation.prevEl = prevRef.current;
       swiperInstance.params.navigation.nextEl = nextRef.current;
 
-      // Manually update the navigation buttons
+      // Initialize and update navigation
       swiperInstance.navigation.init();
       swiperInstance.navigation.update();
     }
-  }, [swiperRef, prevRef, nextRef]);
+  }, [swiperRef]);
+
+  const StarDrawing = (
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M10.788 3.21009C11.236 2.13309 12.764 2.13309 13.212 3.21009L15.294 8.21709L20.698 8.65009C21.862 8.74309 22.334 10.1951 21.447 10.9551L17.33 14.4821L18.587 19.7551C18.858 20.8911 17.623 21.7881 16.627 21.1801L12 18.3541L7.373 21.1801C6.377 21.7881 5.142 20.8901 5.413 19.7551L6.67 14.4821L2.553 10.9551C1.666 10.1951 2.138 8.74309 3.302 8.65009L8.706 8.21709L10.788 3.21109V3.21009Z"
+      fill="#FF912C"
+    />
+  );
+
+  const customStyles = {
+    itemShapes: StarDrawing,
+    activeFillColor: "#22C55E",
+    inactiveFillColor: "#BBF7D0",
+  };
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="my-[132px] px-4 ">
@@ -131,8 +118,8 @@ const Testimonial = () => {
                       <div className="flex items-center gap-5">
                         <div className="rounded-[60px]">
                           <Image
-                            src={testimonial?.userImage}
-                            alt="Image"
+                            src={testimonial?.userImg}
+                            alt="User Image"
                             width={60}
                             height={60}
                             className="w-[60px] h-[60px] rounded-full"
@@ -140,17 +127,17 @@ const Testimonial = () => {
                         </div>
                         <div>
                           <h2 className="text-[18px] sm:text-[20px] md:text-[22px] lg:text-[25px] font-bold text-[#444444]">
-                            {testimonial?.name}
+                            {testimonial?.userName}
                           </h2>
                           <h4 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[20px] font-semibold text-[#737373] mt-[10px]">
-                            {testimonial?.productName}
+                            {testimonial?.position}
                           </h4>
                         </div>
                       </div>
                       <div className="pr-[40px] md:pr-[80px] lg:pr-[106px]">
                         <Image
                           src={"/assets/icons/quote.svg"}
-                          alt="image"
+                          alt="Quote Icon"
                           width={56}
                           height={56}
                           className="w-[56px] h-[56px]"
@@ -159,36 +146,15 @@ const Testimonial = () => {
                     </div>
                   </div>
                   <div className="mt-5">
-                    <p className="text-sm sm:text-base md:text-[16px] lg:text-base font-normal text-[#737373] leading-[25px] md:leading-[28px] lg:leading-[30px] capitalize">
+                  <p className="text-sm sm:text-base md:text-[16px] lg:text-base font-normal text-[#737373] leading-[25px] md:leading-[28px] lg:leading-[30px] capitalize overflow-auto max-h-[80px]">
                       {testimonial?.description}
                     </p>
                     <div className="flex mt-5 space-x-1">
-                      {Array(5)
-                        .fill(0)
-                        .map((_, i) => (
-                          <svg
-                            key={i}
-                            xmlns="http://www.w3.org/2000/svg"
-                            className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 ${
-                              i < testimonial.ratingValue
-                                ? "text-yellow-500"
-                                : "text-gray-300"
-                            }`}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M10.788 3.21009C11.236 2.13309 12.764 2.13309 13.212 3.21009L15.294 8.21709L20.698 8.65009C21.862 8.74309 22.334 10.1951 21.447 10.9551L17.33 14.4821L18.587 19.7551C18.858 20.8911 17.623 21.7881 16.627 21.1801L12 18.3541L7.373 21.1801C6.377 21.7881 5.142 20.8901 5.413 19.7551L6.67 14.4821L2.553 10.9551C1.666 10.1951 2.138 8.74309 3.302 8.65009L8.706 8.21709L10.788 3.21109V3.21009Z"
-                              fill={
-                                i < testimonial.ratingValue
-                                  ? "#FF912C"
-                                  : "#E5E7EB"
-                              }
-                            />
-                          </svg>
-                        ))}
+                      <Rating
+                        style={{ maxWidth: 120 }}
+                        value={testimonial?.rating}
+                        itemStyles={customStyles}
+                      />
                     </div>
                   </div>
                 </div>
@@ -199,17 +165,39 @@ const Testimonial = () => {
         {/* Custom Navigation Buttons */}
         <div
           ref={prevRef}
+          onClick={() => swiperRef.current.swiper.slidePrev()}
           className="custom-prev w-[60px] h-[60px] flex justify-center items-center text-[#444444] hover:text-[#FFFFFF] bg-[#F3F3F3] hover:bg-[#FF3811] rounded-full cursor-pointer absolute -left-[30px] top-1/2 transform -translate-y-1/2 z-10"
         >
           <HiOutlineArrowLeft className="h-[24px] w-[24px]" />
         </div>
         <div
           ref={nextRef}
+          onClick={() => swiperRef.current.swiper.slideNext()}
           className="custom-next w-[60px] h-[60px] flex justify-center items-center text-[#444444] hover:text-[#FFFFFF] bg-[#F3F3F3] hover:bg-[#FF3811] rounded-full cursor-pointer absolute -right-[30px] top-1/2 transform -translate-y-1/2 z-10"
         >
           <HiOutlineArrowRight className="h-[24px] w-[24px]" />
         </div>
       </div>
+      
+      
+      <style jsx global>{`
+        /* Custom scrollbar styles for WebKit browsers */
+        .overflow-auto::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+      `}</style>
     </div>
   );
 };

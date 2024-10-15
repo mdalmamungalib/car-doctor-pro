@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
+export const dynamic = "force-dynamic";
 
 const Card = ({ service }) => {
   const { price, img, title, _id } = service;

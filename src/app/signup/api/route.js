@@ -1,5 +1,6 @@
 import { connectDB } from "lib/connectDB";
 import bcrypt from "bcrypt";
+export const dynamic = "force-dynamic";
 
 export const POST = async (request) => {
   try {

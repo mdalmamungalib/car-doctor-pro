@@ -1,6 +1,5 @@
 "use client";
 import "tailwindcss/tailwind.css";
-
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
@@ -9,24 +8,25 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SocialLogin from "components/SocialLogin/SocialLogin";
 import Swal from "sweetalert2";
-import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Spinner icon
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+export const dynamic = "force-dynamic";
 
 const Page = () => {
   const router = useRouter();
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const path = searchParams.get("redirect");
   useEffect(() => {
-    if(session){
+    if (session) {
       const timer = setTimeout(() => {
-        router.push('/404');
+        router.push("/404");
       }, 0);
-  
+
       // Cleanup timeout on component unmount
       return () => clearTimeout(timer);
     }
   }, [session, router]);
-  
+
   const {
     register,
     handleSubmit,

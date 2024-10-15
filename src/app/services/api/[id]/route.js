@@ -1,5 +1,6 @@
 import { connectDB } from "lib/connectDB";
-import { ObjectId } from "mongodb"; // Import ObjectId from mongodb
+import { ObjectId } from "mongodb";
+export const dynamic = "force-dynamic"; // Import ObjectId from mongodb
 
 export const GET = async (request, { params }) => {
   const db = await connectDB();

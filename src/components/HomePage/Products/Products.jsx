@@ -1,6 +1,5 @@
 "use client";
 import ProductCard from "components/ProductCard/ProductCard";
-import { getServices } from "services/getServices";
 import Link from "next/link";
 import React from "react";
 import LoadingPage from "components/LoadingPage/LoadingPage";
@@ -24,6 +23,7 @@ const Products = () => {
       return response.data.services;
     },
   });
+  
 
   // Handle loading and error states
   if (isLoading) {
@@ -38,6 +38,7 @@ const Products = () => {
     );
   }
   return (
+  
     <div className="mt-[132px] px-4">
      
       <HeadLayout

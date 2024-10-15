@@ -8,7 +8,7 @@ export const middleware = async (request) => {
   // Define routes with required roles
   const routeRoles = {
     public: ["/login", "/home", "/contact"],
-    admin: [ "/dashboard/admin/all-users",],
+    admin: [ "/dashboard/admin/all-users", "/dashboard/admin/services", "/dashboard/admin/all-users", "/dashboard/admin/all-bookings"],
     user: ["/dashboard/user/my-booking", ],
     // Add more roles and routes as needed
   };

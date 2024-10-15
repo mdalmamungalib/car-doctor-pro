@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import SocialLogin from "components/SocialLogin/SocialLogin";
 import Swal from "sweetalert2";
-import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Loading spinner icon
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import axiosSecure from "lib/axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+export const dynamic = "force-dynamic";
 
 const Page = () => {
   const router = useRouter();
@@ -43,8 +44,6 @@ const Page = () => {
 
       // No need to parse with res.json() as Axios does this automatically
       const result = res.data;
-
-      console.log("sign up data", res.status); // The parsed response data is in `res.data`
 
       // Check the response status
       if (res.status === 201) {

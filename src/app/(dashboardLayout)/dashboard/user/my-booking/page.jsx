@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import axiosSecure from "lib/axios";
 import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
+export const dynamic = "force-dynamic";
 
 // Change "page" to "Page"
 const Page = () => {
@@ -54,7 +54,6 @@ const Page = () => {
             `/dashboard/user/my-booking/api/booking/${id}`
           );
           if (res.status === 200) {
-            await refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -63,6 +62,7 @@ const Page = () => {
             }).then(() => {
               window.location.reload();
             });
+            refetch();
           } else {
             Swal.fire({
               title: "Error!",
@@ -104,7 +104,6 @@ const Page = () => {
             `/dashboard/user/my-booking/api/delete-all`
           );
           if (res.status === 200) {
-            await refetch();
             Swal.fire({
               title: "Deleted!",
               text: "All your bookings have been deleted.",
@@ -113,6 +112,7 @@ const Page = () => {
             }).then(() => {
               window.location.reload();
             });
+            refetch();
           } else {
             Swal.fire({
               title: "Error!",
@@ -134,16 +134,17 @@ const Page = () => {
       }
     });
   };
-  
 
-  console.log("isLoading",isLoading)
-  
+  if (refetch) {
+    refetch();
+  }
+
   if (bookings.length > 0) {
-    if(isLoading || isDeleting){
-      return <LoadingPage/>
+    if (isLoading || isDeleting) {
+      return <LoadingPage />;
     }
   }
-  
+
   return (
     <div className="mb-[130px]">
       <div
@@ -163,65 +164,88 @@ const Page = () => {
         </div>
       </div>
       <div className="w-full overflow-x-auto mt-[130px]">
-      <table className="min-w-full border-collapse table-auto md:table-auto">
-  <tbody>
-    {bookings && bookings.length > 0 ? (
-      bookings?.map((booking, index) => (
-        <tr key={index} className="flex items-center justify-between">
-          <div className="flex items-center justify-center ">
-          <td className="p-3">
-            <button
-              onClick={() => handleDelete(booking?._id)}
-              className="bg-[#444444] rounded-full p-3 hover:bg-[#FF3811] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]"
-              aria-label="Close"
-            >
-              <RxCross2 className="w-6 h-6 text-white" />
-            </button>
-          </td>
-          <td className="p-3">
-            <div className="w-[150px] h-[150px]">
-              <Image
-                src={booking?.image}
-                alt="title"
-                width={150}
-                height={150}
-                className="rounded-[10px] w-[150px] h-[150px]"
-              />
-            </div>
-          </td>
-          <td className="p-3">
-            <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-[#444444]">
-              {booking?.service}
-            </h3>
-          </td>
-          </div>
-          <td className="p-3">
-            <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-[#444444]">
-              ${booking?.price}
-            </h3>
-          </td>
-          <td className="p-3">
-            <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-[#444444]">
-              {booking?.bookingData}
-            </h3>
-          </td>
-          <td className="p-3">
-            <button className="bg-[#FF3811] text-white py-2 px-4 rounded-2xl hover:bg-[#e23310] transition-transform transform hover:scale-105">
-              Pending
-            </button>
-          </td>
-        </tr>
-      ))
-    ) : (
-      <tr>
-        <td colSpan="5" className="p-3 text-center text-sm sm:text-base md:text-lg lg:text-xl font-medium text-[#FF3811]">
-          No bookings found.
-        </td>
-      </tr>
-    )}
-  </tbody>
-</table>
-
+        <table className="min-w-full border-collapse table-auto md:table-auto">
+          <tbody>
+            {bookings && bookings.length > 0 ? (
+              bookings?.map((booking, index) => (
+                <tr
+                  key={index}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center justify-center ">
+                    <td className="p-3">
+                      <button
+                        onClick={() => handleDelete(booking?._id)}
+                        className="bg-[#444444] rounded-full p-3 hover:bg-[#FF3811] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]"
+                        aria-label="Close"
+                      >
+                        <RxCross2 className="w-6 h-6 text-white" />
+                      </button>
+                    </td>
+                    <td className="p-3">
+                      <div className="w-[150px] h-[150px]">
+                        <Image
+                          src={booking?.image}
+                          alt="title"
+                          width={150}
+                          height={150}
+                          className="rounded-[10px] w-[150px] h-[150px]"
+                        />
+                      </div>
+                    </td>
+                    <td className="p-3">
+                      <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-[#444444]">
+                        {booking?.service}
+                      </h3>
+                    </td>
+                  </div>
+                  <td className="p-3">
+                    <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-[#444444]">
+                      ${booking?.price}
+                    </h3>
+                  </td>
+                  <td className="p-3">
+                    <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-[#444444]">
+                      {new Date(
+                        booking.bookingData
+                      ).toLocaleDateString()}
+                    </h3>
+                  </td>
+                  <td className="p-3">
+                    {booking?.status === "Pending" ? (
+                      <button className="text-white bg-[#FF3811] py-2 px-4 rounded-2xl transition-transform transform hover:scale-105 focus:outline-none">
+                        {booking?.status}
+                      </button>
+                    ) : booking?.status === "Approved" ? (
+                      <button className="bg-[#29B170] text-white py-2 px-4 rounded-2xl transition-transform transform hover:scale-105 focus:outline-none">
+                        {booking?.status}
+                      </button>
+                    ) : booking?.status === "Review" ? (
+                      <Link href={"/dashboard/user/review"}>
+                        <button className="bg-[#1E90FF] text-white py-2 px-4 rounded-2xl transition-transform transform hover:scale-105 focus:outline-none">
+                          {booking?.status}
+                        </button>
+                      </Link>
+                    ) : (
+                      <button className="bg-[#FF3811] text-white py-2 px-4 rounded-2xl transition-transform transform hover:scale-105 focus:outline-none">
+                        Pending
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="5"
+                  className="p-3 text-center text-sm sm:text-base md:text-lg lg:text-xl font-medium text-[#FF3811]"
+                >
+                  No bookings found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
       <div className="flex justify-between mt-[50px]">
         {/* Continue Shopping Section */}
@@ -246,4 +270,4 @@ const Page = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Page), { ssr: false });
+export default Page;

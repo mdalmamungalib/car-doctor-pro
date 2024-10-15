@@ -2,6 +2,7 @@
 import HeadImage from "components/HomePage/HeadImage";
 import ServiceSide from "components/ServiceSide/ServiceSide";
 import Image from "next/image";
+export const dynamic = "force-dynamic";
 
 import React, { useEffect, useState } from "react";
 import LoadingPage from "components/LoadingPage/LoadingPage";
@@ -36,8 +37,7 @@ const Page = ({ params }) => {
     const fetchService = async () => {
       try {
         const serviceData = await fetchServiceById(params.id); // Assuming params.id is passed to the component
-        setSingleService(serviceData); // Set fetched service to state
-        console.log("Fetched service by id:", serviceData);
+        setSingleService(serviceData); // Set fetched serv
       } catch (error) {
         console.error("Error fetching service by id:", error);
       }
@@ -62,7 +62,6 @@ const Page = ({ params }) => {
     );
   }
   
-  console.log("singleService", singleService)
 
   const step = [
     {

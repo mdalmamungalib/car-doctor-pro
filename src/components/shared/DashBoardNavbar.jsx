@@ -7,8 +7,11 @@ import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axiosSecure from "lib/axios";
+import { useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
 
 const DashBoardNavbar = () => {
+  const [booking, setBooking] = useState([]);
   const router = useRouter();
   const pathname = usePathname(); // Get the current path
 
@@ -31,9 +34,28 @@ const DashBoardNavbar = () => {
     enabled: !!session?.user?.email,
   });
 
+  useEffect(() => {
+    const fetchBooking = async () => {
+      try {
+        const res = await axiosSecure.get(
+          "/checkout/api/all-bookings"
+        );
+        setBooking(res?.data);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    };
+    refetch();
+    fetchBooking();
+  }, []);
+
   if (isLoading) {
     refetch();
   } else {
+    refetch();
+  }
+
+  if (refetch) {
     refetch();
   }
 
@@ -47,7 +69,10 @@ const DashBoardNavbar = () => {
   const adminNavItem = [
     { title: "Services", path: "/dashboard/admin/services" },
     { title: "All Users", path: "/dashboard/admin/all-users" },
-    { title: "Manage Inventory", path: "/manageInventory" },
+    {
+      title: "Manage All Bookings",
+      path: "/dashboard/admin/all-bookings",
+    },
     { title: "Home", path: "/" },
   ];
 
@@ -121,7 +146,7 @@ const DashBoardNavbar = () => {
             <div className="relative transition-transform duration-300 ease-in-out cursor-pointer hover:scale-105">
               {/* Notification badge for bookings */}
               <p className="absolute -top-2 -right-3 w-5 h-5 flex items-center justify-center bg-[#FF3811] text-white text-xs font-bold rounded-full transition-opacity duration-300 ease-in-out hover:opacity-80">
-                {bookings.length}
+              {session?.user?.role === "admin" ? booking.length : bookings.length}
               </p>
               <BsHandbag className="text-black transition-transform duration-300 ease-in-out w-7 h-7 hover:scale-110 hover:text-[#FF3811]" />
             </div>

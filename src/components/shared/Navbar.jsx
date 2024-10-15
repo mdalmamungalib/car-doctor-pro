@@ -3,15 +3,16 @@ import "tailwindcss/tailwind.css";
 import Image from "next/image";
 import Link from "next/link";
 import { BsHandbag } from "react-icons/bs";
-import { IoSearchOutline } from "react-icons/io5";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import DashBoardNavbar from "./DashBoardNavbar";
-import LoadingPage from "../LoadingPage/LoadingPage";
 import axiosSecure from "lib/axios";
+import { useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
 
 const Navbar = () => {
+  const [booking, setBooking] = useState([]);
   const router = useRouter();
   const pathname = usePathname(); // Get the current path
 
@@ -34,10 +35,29 @@ const Navbar = () => {
     enabled: !!session?.user?.email,
   });
 
+  useEffect(() => {
+    const fetchBooking = async () => {
+      try {
+        const res = await axiosSecure.get(
+          "/checkout/api/all-bookings"
+        );
+        setBooking(res?.data);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    };
+    refetch();
+    fetchBooking();
+  }, []);
+
   // Handle click to navigate to the dashboard
   const handleClick = () => {
     refetch();
-    router.push("/dashboard"); // Navigate to dashboard
+    router.push(
+      session.user.role === "admin"
+        ? "/dashboard/admin/services"
+        : "/dashboard/user/my-booking"
+    ); // Navigate to dashboard
   };
 
   const loginHandler = () => {
@@ -52,7 +72,6 @@ const Navbar = () => {
     { title: "Home", path: "/" },
     { title: "About", path: "/about" },
     { title: "Services", path: "/services" },
-
     { title: "Blog", path: "/blog" },
     { title: "Contact", path: "/contact" },
   ];
@@ -61,11 +80,15 @@ const Navbar = () => {
     refetch();
     return <DashBoardNavbar />;
   }
+  
+  if(refetch){
+    refetch();
+  }
 
   if (isLoading) {
     refetch();
-  }else{
-    refetch()
+  } else {
+    refetch();
   }
 
   return (
@@ -158,7 +181,7 @@ const Navbar = () => {
             >
               {/* Notification badge for bookings */}
               <p className="absolute -top-2 -right-3 w-5 h-5 flex items-center justify-center bg-[#FF3811] text-white text-xs font-bold rounded-full transition-opacity duration-300 ease-in-out hover:opacity-80">
-                {bookings.length}
+                {session?.user?.role === "admin" ? booking.length : bookings.length}
               </p>
               <BsHandbag className="text-black transition-transform duration-300 ease-in-out w-7 h-7 hover:scale-110 hover:text-[#FF3811]" />
             </div>

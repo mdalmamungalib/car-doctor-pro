@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/navigation';
+export const dynamic = "force-dynamic";
 
 const NotFound = () => {
   const router = useRouter();

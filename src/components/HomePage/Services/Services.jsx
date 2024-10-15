@@ -1,6 +1,5 @@
 "use client";
 import Card from "components/Card/Card";
-import { getServices } from "services/getServices";
 import Link from "next/link";
 import React from "react";
 import LoadingPage from "components/LoadingPage/LoadingPage";
@@ -24,6 +23,7 @@ const Services =  () => {
       return response.data.services;
     },
   });
+  
 
   // Handle loading and error states
   if (isLoading) {
@@ -38,6 +38,7 @@ const Services =  () => {
     );
   }
   return (
+    
     <div className="mt-[132px] px-4">
       <HeadLayout
         headTitle="Service"

@@ -4,22 +4,16 @@ import LoadingPage from "components/LoadingPage/LoadingPage";
 import axiosSecure from "lib/axios";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { MdEditSquare } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import Swal from "sweetalert2";
+export const dynamic = "force-dynamic";
 
 const Page = () => {
-  const [dropdownOpen, setDropdownOpen] = useState({});
-
-  const toggleDropdown = (id) => {
-    setDropdownOpen((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
-  };
-
   const {
     data: services = [],
+    refetch,
     isLoading,
     isError,
     error,
@@ -37,11 +31,58 @@ const Page = () => {
     return <LoadingPage />;
   }
 
-  const handleStatusUpdate = (id, status) => {
-    console.log(`Service ${id} status updated to ${status}`);
-    setDropdownOpen((prevState) => ({ ...prevState, [id]: false }));
-    // Implement the API call to update the service status here
+  const handleDeleteService = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won’t be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#FF3811",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Perform delete operation
+          const res = await axiosSecure.delete(
+            `/dashboard/admin/services/api/delete-service/${id}`
+          );
+
+          // Check the response status
+          if (res.status === 200 || res.status === 204) {
+            // Adjust according to your API response
+            // Show success message
+            Swal.fire({
+              title: "Deleted!",
+              text: "Service has been deleted.",
+              icon: "success",
+              confirmButtonColor: "#3085d6",
+            });
+            // Optionally refetch data
+            refetch();
+          } else {
+            // If the status is not successful, show error message
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to delete the service.",
+              icon: "error",
+              confirmButtonColor: "#3085d6",
+            });
+          }
+        } catch (error) {
+          // Show error notification on request failure
+          Swal.fire({
+            title: "Error!",
+            text: "An error occurred while deleting the service.",
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+          });
+        }
+      }
+    });
   };
+
   return (
     <div className="p-4">
       <div
@@ -60,6 +101,14 @@ const Page = () => {
           </p>
         </div>
       </div>
+      <div className="flex justify-end mt-4">
+        <Link href="/dashboard/admin/add-service">
+          <button className="flex items-center gap-2 bg-[#FF3811] text-white px-4 py-2 mt-10 rounded-full hover:bg-[#e63610] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]">
+            <IoMdAddCircleOutline className="w-6 h-6" />
+            <span>Add New Service</span>
+          </button>
+        </Link>
+      </div>
       <div className="w-full mt-8 overflow-x-auto">
         <table className="min-w-full border-collapse table-auto">
           <thead>
@@ -69,7 +118,6 @@ const Page = () => {
               <th className="p-3">Name</th>
               <th className="p-3">Price</th>
               <th className="p-3">Edit</th>
-              <th className="p-3">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -77,7 +125,9 @@ const Page = () => {
               <tr key={index} className="border-b border-gray-200">
                 <td className="p-3">
                   <button
-                    onClick={() => handleDeleteUser(service?._id)}
+                    onClick={() =>
+                      handleDeleteService(service?._id)
+                    }
                     className="bg-[#444444] hover:bg-[#FF3811] rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]"
                     aria-label="Close"
                   >
@@ -105,59 +155,14 @@ const Page = () => {
                 </td>
                 <td className="p-3">
                   <div className="text-sm sm:text-lg font-semibold text-[#444444]">
-                    <button
-                      onClick={() => handleMakeAdmin(user?._id)}
-                      className="text-2xl button"
+                    <Link
+                      href={`/dashboard/admin/services/update-service/${service?._id}`}
                     >
-                      <MdEditSquare />
-                    </button>
+                      <button className="text-2xl button">
+                        <MdEditSquare />
+                      </button>
+                    </Link>
                   </div>
-                </td>
-                <td className="relative p-3">
-                  <button
-                    onClick={() => toggleDropdown(service._id)}
-                    className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none"
-                  >
-                    {service.status || "Pending"}
-                    <svg
-                      className="w-5 h-5 ml-2"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      aria-hidden="true"
-                    >
-                      <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                    </svg>
-                  </button>
-                  {dropdownOpen[service._id] && (
-                    <div className="absolute right-0 w-40 mt-2 bg-white rounded-lg shadow-lg">
-                      <div className="py-1">
-                        <button
-                          onClick={() =>
-                            handleStatusUpdate(
-                              service._id,
-                              "Approved"
-                            )
-                          }
-                          className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-[#FF3811] hover:text-white"
-                        >
-                          Approved
-                        </button>
-                        <button
-                          onClick={() =>
-                            handleStatusUpdate(
-                              service._id,
-                              "Approved"
-                            )
-                          }
-                          className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-[#FF3811] hover:text-white"
-                        >
-                          Review
-                        </button>
-                        
-                      </div>
-                    </div>
-                  )}
                 </td>
               </tr>
             ))}

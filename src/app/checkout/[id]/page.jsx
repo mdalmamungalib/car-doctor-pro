@@ -1,15 +1,13 @@
 "use client";
 import HeadImage from "components/HomePage/HeadImage";
 import { useForm } from "react-hook-form";
-import Head from "next/head";
-import { getServiceDetail } from "@/services/getServices";
-import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import axiosSecure from "lib/axios";
 import { useQuery } from "@tanstack/react-query";
+export const dynamic = "force-dynamic";
 
 const CheckoutPage = ({ params }) => {
   const router = useRouter();
@@ -50,7 +48,7 @@ const CheckoutPage = ({ params }) => {
       price: service?.price,
       image: service?.img,
       bookingData: new Date(),
-      status: "Padding"
+      status: "Pending"
     };
 
     const res = await axiosSecure.post(

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import Card from "components/Card/Card";
 import HeadImage from "components/HomePage/HeadImage";
@@ -7,6 +6,8 @@ import axiosSecure from "lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import { FaSearch } from "react-icons/fa";
+export const dynamic = "force-dynamic";
+
 
 const Page = () => {
   // Search state for filtering services

@@ -6,6 +6,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import FacebookProvider from "next-auth/providers/facebook";
 import bcrypt from "bcrypt";
+export const dynamic = "force-dynamic";
 
 // Define authOptions to be used in both NextAuth and other parts of the app
 export const authOptions = {

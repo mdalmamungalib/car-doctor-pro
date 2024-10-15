@@ -1,6 +1,7 @@
 import HeadImage from "components/HomePage/HeadImage";
 import Image from "next/image";
 import Link from "next/link";
+export const dynamic = "force-dynamic";
 
 // Dummy Blog Data
 const blogPosts = [
