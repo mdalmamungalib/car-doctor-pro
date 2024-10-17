@@ -61,8 +61,8 @@ const Testimonial = () => {
 
   const customStyles = {
     itemShapes: StarDrawing,
-    activeFillColor: "#22C55E",
-    inactiveFillColor: "#BBF7D0",
+    activeFillColor: "#FF912C",
+    inactiveFillColor: "#E5E7EB",
   };
 
   if (isLoading) {

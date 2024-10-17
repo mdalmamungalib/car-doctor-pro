@@ -7,17 +7,21 @@ import "@smastrom/react-rating/style.css";
 import axiosSecure from "lib/axios";
 import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
-export const dynamic = "force-dynamic";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import LoadingPage from "components/LoadingPage/LoadingPage";
+import DashboardHeadImage from "components/shared/DashboardHeadImage";
 
-const Page = () => {
+export const dynamic = "force-dynamic";
+
+const Page = ({params}) => {
   const router = useRouter();
   // Use state for loading and rating
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(5);
 
   const { data: session } = useSession();
-  console.log(session);
+  
 
   // Form handling using react-hook-form
   const {
@@ -26,6 +30,24 @@ const Page = () => {
     formState: { errors },
     reset,
   } = useForm();
+  
+  
+  const {
+    data: review = {},
+    refetch,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["review", params?.id],
+    queryFn: async () => {
+      const response = await axiosSecure.get(
+        `/dashboard/user/order-review/api/areview/${params?.id}`
+      );
+      return response.data;
+    },
+  });
+  
 
   // Form submission handler
 
@@ -34,19 +56,16 @@ const Page = () => {
       setLoading(true);
 
       // Prepare the review data
-      const reviewData = {
-        userName: session?.user?.name,
-        email: session?.user?.email,
-        userImg: session?.user?.image,
+      const updateReviewData = {
         ...data,
         rating,
       };
-      console.log("Review Data:", reviewData);
+      console.log("Review Data:", updateReviewData);
 
       // Show loading notification
       const loadingSwal = Swal.fire({
         title: "Submitting...",
-        text: "Please wait while your review is being submitted.",
+        text: "Please wait while your review is being Updated.",
         icon: "info",
         allowOutsideClick: false,
         didOpen: () => {
@@ -55,15 +74,15 @@ const Page = () => {
       });
 
       // Submit the review
-      const res = await axiosSecure.post(
-        "/dashboard/user/review/api/post-review",
-        reviewData
+      const res = await axiosSecure.patch(
+        `/dashboard/user/order-review/api/review-update/${params?.id}`,
+        updateReviewData
       );
 
       console.log(res);
 
       // Success notification
-      if (res?.status === 201) {
+      if (res?.status === 200) {
         router.push("/dashboard/user/order-review");
         Swal.fire({
           title: "Review Submitted!",
@@ -119,11 +138,15 @@ const Page = () => {
     activeFillColor: "#FF912C",
     inactiveFillColor: "#E5E7EB",
   };
+  
+  if(isLoading){
+    return <LoadingPage />;
+  }
 
   return (
     <div className="">
       {/* Header Image Component */}
-      <HeadImage title="Add New Review" subtitle="Review" />
+      <DashboardHeadImage title={"Update Review"} subTile={"Update Review"}/>
 
       {/* Review Form Container */}
       <div className="h-full max-w-full bg-[#F3F3F3] rounded-[10px] lg:p-[97px] md:p-[97px] p-[10%] my-[130px]">
@@ -134,6 +157,7 @@ const Page = () => {
           {/* Position Input Field */}
           <div className="space-y-1">
             <input
+            defaultValue={review?.position}
               {...register("position", {
                 required: "Your position name is required",
               })}
@@ -150,6 +174,7 @@ const Page = () => {
           {/* Review Description Text Area */}
           <div className="space-y-1">
             <textarea
+            defaultValue={review?.description}
               {...register("description", {
                 required: "Review description is required",
               })}

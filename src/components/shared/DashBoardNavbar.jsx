@@ -61,7 +61,7 @@ const DashBoardNavbar = () => {
 
   const userNavItem = [
     { title: "My Booking", path: "/dashboard/user/my-booking" },
-    { title: "Order Review", path: "/orderReview" },
+    { title: "Order Review", path: "/dashboard/user/order-review" },
     { title: "Manage Inventory", path: "/manageInventory" },
     { title: "Home", path: "/" },
   ];
