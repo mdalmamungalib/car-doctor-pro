@@ -9,6 +9,8 @@ import React from "react";
 import { GoArrowRight } from "react-icons/go";
 import { HiOutlineDocumentChartBar } from "react-icons/hi2";
 
+export const dynamic = "force-dynamic";
+
 const ServiceSide = ({ services,  params }) => {
   const currentPath = usePathname(); // Get the current pathname
   

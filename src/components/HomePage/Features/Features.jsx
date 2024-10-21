@@ -27,6 +27,7 @@ const Features = () => {
       <div className="mt-[50px] grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 justify-items-center">
         {features.map((feature, index) => (
           <div
+          data-aos="fade-up-left"
             key={index}
             className="flex flex-col justify-center items-center border border-[#E8E8E8] rounded-[10px] 
       w-[170px] h-[156px] bg-white hover:bg-[#FF3811] group"

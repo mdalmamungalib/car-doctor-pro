@@ -47,22 +47,11 @@ const DashBoardNavbar = () => {
     };
     refetch();
     fetchBooking();
-  }, []);
-
-  if (isLoading) {
-    refetch();
-  } else {
-    refetch();
-  }
-
-  if (refetch) {
-    refetch();
-  }
+  }, [refetch]);
 
   const userNavItem = [
     { title: "My Booking", path: "/dashboard/user/my-booking" },
     { title: "Order Review", path: "/dashboard/user/order-review" },
-    { title: "Manage Inventory", path: "/manageInventory" },
     { title: "Home", path: "/" },
   ];
 
@@ -73,6 +62,8 @@ const DashBoardNavbar = () => {
       title: "Manage All Bookings",
       path: "/dashboard/admin/all-bookings",
     },
+    { title: "Products", path: "/dashboard/admin/products" },
+
     { title: "Home", path: "/" },
   ];
 
@@ -146,7 +137,9 @@ const DashBoardNavbar = () => {
             <div className="relative transition-transform duration-300 ease-in-out cursor-pointer hover:scale-105">
               {/* Notification badge for bookings */}
               <p className="absolute -top-2 -right-3 w-5 h-5 flex items-center justify-center bg-[#FF3811] text-white text-xs font-bold rounded-full transition-opacity duration-300 ease-in-out hover:opacity-80">
-              {session?.user?.role === "admin" ? booking.length : bookings.length}
+                {session?.user?.role === "admin"
+                  ? booking.length
+                  : bookings.length}
               </p>
               <BsHandbag className="text-black transition-transform duration-300 ease-in-out w-7 h-7 hover:scale-110 hover:text-[#FF3811]" />
             </div>

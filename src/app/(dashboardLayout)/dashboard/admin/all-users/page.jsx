@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import axiosSecure from "lib/axios";
 import Swal from "sweetalert2";
+import DashboardHeadImage from "components/shared/DashboardHeadImage";
 export const dynamic = "force-dynamic";
 
 const Page = () => {
@@ -159,22 +160,10 @@ const Page = () => {
 
   return (
     <div className="p-4">
-      <div
-        className="w-full min-h-[210px] sm:min-h-[300px] rounded-lg bg-cover bg-no-repeat bg-center flex items-center justify-center relative"
-        style={{
-          backgroundImage:
-            "linear-gradient(90deg, #151515 0%, rgba(21, 21, 21, 0.00) 100%), url('/assets/images/checkout/checkout.png')",
-        }}
-      >
-        <div className="absolute left-0 pl-4 sm:pl-8 md:pl-12 lg:pl-[124px] xl:pl-[124px]">
-          <h1 className="text-xl font-bold text-white sm:text-2xl md:text-3xl lg:text-4xl font-inter">
-            User Details
-          </h1>
-          <p className="text-base font-medium text-[#FF3811] mt-2">
-            Dashboard - User Details
-          </p>
-        </div>
-      </div>
+      <DashboardHeadImage
+        title={"Manage All Users"}
+        subTile={"All Users Details"}
+      />
       <div className="w-full mt-8 overflow-x-auto">
         <table className="min-w-full border-collapse table-auto">
           <thead>

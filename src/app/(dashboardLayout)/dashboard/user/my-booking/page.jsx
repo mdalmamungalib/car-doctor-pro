@@ -1,6 +1,5 @@
 "use client";
 import LoadingPage from "components/LoadingPage/LoadingPage";
-
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
@@ -12,6 +11,8 @@ import { useQuery } from "@tanstack/react-query";
 import axiosSecure from "lib/axios";
 import { useSession } from "next-auth/react";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";
+
+
 export const dynamic = "force-dynamic";
 
 // Change "page" to "Page"
@@ -29,7 +30,7 @@ const Page = () => {
     queryKey: ["bookings", session?.user?.email],
     queryFn: async () => {
       const response = await axiosSecure.get(
-        `/dashboard/user/my-booking/api/${session?.user?.email}`
+        `/dashboard/my-booking/api/${session?.user?.email}`
       );
       return response.data.myBookings;
     },
@@ -135,20 +136,28 @@ const Page = () => {
       }
     });
   };
+  
 
-  if (refetch) {
-    refetch();
+  if (isError) {
+    return (
+      <div className="p-5">
+        <h2 className="text-lg text-red-600">
+          Error: {error.message}
+        </h2>
+      </div>
+    );
   }
 
-  if (bookings.length > 0) {
-    if (isLoading || isDeleting) {
-      return <LoadingPage />;
-    }
+  if (isLoading || isDeleting) {
+    return <LoadingPage />;
   }
 
   return (
     <div className="mb-[130px]">
-      <DashboardHeadImage title={"Booking Details"} subTile={"Booking Details"}/>
+      <DashboardHeadImage
+        title={"Manage All Bookings"}
+        subTile={"All Booking Details"}
+      />
       <div className="w-full overflow-x-auto mt-[130px]">
         <table className="min-w-full border-collapse table-auto md:table-auto">
           <tbody>

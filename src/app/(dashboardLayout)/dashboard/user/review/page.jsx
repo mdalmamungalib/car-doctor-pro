@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 export const dynamic = "force-dynamic";
 import { useRouter } from "next/navigation";
 
+
 const Page = () => {
   const router = useRouter();
   // Use state for loading and rating

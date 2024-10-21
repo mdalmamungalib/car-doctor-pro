@@ -48,7 +48,7 @@ const Navbar = () => {
     };
     refetch();
     fetchBooking();
-  }, []);
+  }, [refetch]);
 
   // Handle click to navigate to the dashboard
   const handleClick = () => {
@@ -79,10 +79,6 @@ const Navbar = () => {
   if (pathname.includes("dashboard")) {
     refetch();
     return <DashBoardNavbar />;
-  }
-  
-  if(refetch){
-    refetch();
   }
 
   if (isLoading) {

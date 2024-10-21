@@ -2,12 +2,14 @@
 import HeadImage from "components/HomePage/HeadImage";
 import ServiceSide from "components/ServiceSide/ServiceSide";
 import Image from "next/image";
-export const dynamic = "force-dynamic";
 
 import React, { useEffect, useState } from "react";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import { useQuery } from "@tanstack/react-query";
 import axiosSecure from "lib/axios";
+
+
+export const dynamic = "force-dynamic";
 
 const Page = ({ params }) => {
   const [singleService, setSingleService] = useState(null);

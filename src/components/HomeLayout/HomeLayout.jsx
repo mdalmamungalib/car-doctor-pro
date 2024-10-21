@@ -15,7 +15,7 @@ const HomeLayout = ({ children }) => {
   return (
     <>
       {!isHidden && <Navbar />}
-      <div className="min-h-screen max-w-[1140px] mx-auto p-5 lg:px-0">
+      <div className="min-h-screen max-w-[1140px] mx-auto p-5 lg:px-0 overflow-hidden">
         {children}
       </div>
       {!isHidden && <Footer />}

@@ -48,7 +48,7 @@ const Banner = () => {
 
   
   return (
-    <div className="w-full mt-16 rounded-[10px] carousel">
+    <div className="w-full mt-16 rounded-[10px] carousel" data-aos="fade-right">
       {banners.map((banner, index) => (
         <div
           style={{

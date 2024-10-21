@@ -2,6 +2,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { signOut } from "next-auth/react";
+export const dynamic = "force-dynamic";
 
 const axiosSecure = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL, 

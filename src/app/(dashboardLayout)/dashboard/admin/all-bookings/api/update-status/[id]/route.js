@@ -1,6 +1,8 @@
 import { connectDB } from "lib/connectDB";
 import { ObjectId } from "mongodb";
 
+export const dynamic = "force-dynamic";
+
 export const PATCH = async (request, { params }) => {
   const { id } = params; // Extract the id from params
   const { status } = await request.json(); // Extract status from request body

@@ -10,6 +10,7 @@ import Features from "./Features/Features";
 import Testimonial from "./Testimonial/Testimonial";
 
 const HomePage = () => {
+
   return (
     <div>
       <Banner />

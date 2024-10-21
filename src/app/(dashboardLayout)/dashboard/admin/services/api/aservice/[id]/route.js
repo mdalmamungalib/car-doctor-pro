@@ -1,10 +1,10 @@
 import { connectDB } from "lib/connectDB";
 import { ObjectId } from "mongodb";
-import { unstable_noStore as noStore } from "next/cache";
+
 export const dynamic = "force-dynamic";
 
 export const GET = async (request, { params }) => {
-  noStore();
+
   const { id } = params; // Get id from params
   const db = await connectDB();
 

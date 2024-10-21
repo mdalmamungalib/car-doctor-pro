@@ -5,7 +5,7 @@ import React from "react";
 const AboutUs = () => {
   return (
     <div className="flex flex-col items-center gap-8 mt-32 lg:flex-row ">
-      <div className="relative lg:w-1/2">
+      <div className="relative lg:w-1/2" data-aos="fade-right">
         <Image
           width={1000}
           height={1000}
@@ -21,7 +21,7 @@ const AboutUs = () => {
           className="absolute w-1/2 border-8 border-white rounded-lg shadow-2xl right-5 top-1/2"
         />
       </div>
-      <div className="flex flex-col justify-center px-5">
+      <div className="flex flex-col justify-center px-5" data-aos="fade-left">
         <h4 className="text-xl font-bold text-[#FF3811]">About Us</h4>
         <h2 className="text-[45px] font-bold max-w-[376px] text-[#151515] mt-5">
           We are qualified & of experience in this field

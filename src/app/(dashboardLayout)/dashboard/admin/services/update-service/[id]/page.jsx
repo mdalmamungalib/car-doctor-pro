@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import axiosSecure from "lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import DashboardHeadImage from "components/shared/DashboardHeadImage";
 export const dynamic = "force-dynamic";
 
 const Page = ({ params }) => {
@@ -110,7 +111,6 @@ const Page = ({ params }) => {
         updateService
       );
 
-
       // Handle successful response
       if (response?.status === 200) {
         reset(); // Reset form
@@ -130,7 +130,10 @@ const Page = ({ params }) => {
 
   return (
     <div className="">
-      <HeadImage title="Update Service" subtitle="Update Service" />
+      <DashboardHeadImage
+        title={"Update Services"}
+        subTile={"Update Services"}
+      />
       <div className="h-full max-w-full bg-[#F3F3F3] rounded-[10px] lg:p-[97px] md:p-[97px] p-[10%] my-[130px]">
         <form
           onSubmit={handleSubmit(onSubmit)}

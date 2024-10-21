@@ -6,21 +6,22 @@ import LoadingPage from "components/LoadingPage/LoadingPage";
 import axiosSecure from "lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import HeadLayout from "components/shared/HeadLayout";
+export const dynamic = "force-dynamic";
 
 const Products = () => {
-  // Fetch services using React Query
+  // Fetch products using React Query
   const {
-    data: services = [],
+    data: products = [],
     isLoading,
     isError,
     error,
   } = useQuery({
-    queryKey: ["services"],
+    queryKey: ["products"],
     queryFn: async () => {
       const response = await axiosSecure.get(
-        `/services/api/get-all`
+        `/api/get-products`
       );
-      return response.data.services;
+      return response.data;
     },
   });
   
@@ -39,7 +40,8 @@ const Products = () => {
   }
   return (
   
-    <div className="mt-[132px] px-4">
+    <div className="mt-[132px] px-4" data-aos="fade-up"
+    data-aos-duration="1500">
      
       <HeadLayout
         headTitle="Popular Products"
@@ -50,11 +52,11 @@ const Products = () => {
       />
 
       <div className="grid grid-cols-1 gap-6 mx-auto my-12 lg:grid-cols-3 sm:grid-cols-2">
-        {services && services.length > 0 ? (
-          services
+        {products && products.length > 0 ? (
+          products
             .slice(0, 6)
-            .map((service, index) => (
-              <ProductCard key={index} service={service} />
+            .map((product, index) => (
+              <ProductCard key={index} product={product} />
             ))
         ) : (
           <p className="text-center text-red-500 col-span-full">
@@ -62,7 +64,7 @@ const Products = () => {
           </p>
         )}
       </div>
-      <Link href={"/services"}>
+      <Link href={"/products"}>
         <div className="w-full text-center">
           <button className="px-5 py-3 text-[#FF3811] transform border border-[#FF3811] rounded hover:scale-105 focus:outline-none focus:ring-opacity-50 hover:bg-[#FF3811] hover:text-white font-semibold">More Products</button>
         </div>

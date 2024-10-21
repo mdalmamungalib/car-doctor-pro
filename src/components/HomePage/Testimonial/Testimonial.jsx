@@ -74,7 +74,7 @@ const Testimonial = () => {
   }
 
   return (
-    <div className="my-[132px] px-4 ">
+    <div className="my-[132px] px-4 " data-aos="zoom-in-up">
       <HeadLayout
         headTitle="Testimonial"
         title="What Customer Says"

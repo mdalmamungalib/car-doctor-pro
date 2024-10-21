@@ -1,10 +1,11 @@
 "use client";
 import axiosSecure from "lib/axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";
+
 export const dynamic = "force-dynamic";
 
 const Page = () => {
@@ -16,11 +17,8 @@ const Page = () => {
     reset,
   } = useForm();
 
-
   // State to manage loading status
   const [loading, setLoading] = useState(false);
-
-
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -56,60 +54,47 @@ const Page = () => {
           throw new Error("Image upload failed: No URL returned.");
         }
 
-        const newService = {
-          title: data?.serviceName,
-          description: data?.serviceDescription,
-          price: data?.servicePrice,
+        const newProduct = {
+          title: data?.productName,
+          price: data?.productPrice,
           img: imageUrl,
         };
 
+        console.log(newProduct);
+
         try {
           const res = await axiosSecure.post(
-            "/dashboard/admin/add-service/api/post-service",
-            newService
+            "/dashboard/admin/products/api/new-product",
+            newProduct
           );
+          console.log(res)
           if (res?.status === 201) {
-            reset();
-            router.push("/dashboard/admin/services");
+            // Close loading dialog before showing success message
+            Swal.close();
+            
+            // Success notification
             Swal.fire({
-              title: "Service Added!",
-              text: "Your Service has been successfully added. Would you like to check all Service or continue shopping?",
+              title: "Success!",
+              text: "Your product has been added successfully!",
               icon: "success",
-              showCancelButton: true,
-              confirmButtonText: "Check All Service",
-              cancelButtonText: "Add Service",
-              confirmButtonColor: "#FF3811",
-              cancelButtonColor: "#444444",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton:
-                  "bg-[#FF3811] text-white py-2 px-4 rounded-full mx-2",
-                cancelButton:
-                  "bg-[#444444] text-white py-2 px-4 rounded-full mx-2",
-                popup: "rounded-xl shadow-lg",
-                title: "text-xl font-bold text-[#444444]",
-                htmlContainer: "text-sm text-[#555555]",
-              },
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location.href = "/dashboard/user/my-booking"; // Redirect to bookings page
-              } else if (
-                result.dismiss === Swal.DismissReason.cancel
-              ) {
-                window.location.href = "/services"; // Redirect to shopping page
-              }
             });
+
+            // Reset the form and update product list
+            reset();
+            router.push("/dashboard/admin/products");
           }
-        } catch (serviceError) {
-          console.error("Error adding service:", serviceError);
+        } catch (ProductError) {
+          console.error("Error adding Product:", ProductError);
+          // Show error message if product creation fails
           Swal.fire({
             title: "Error!",
-            text: "There was an error adding your service. Please try again.",
+            text: "There was an error adding your Product. Please try again.",
             icon: "error",
           });
         }
       } catch (uploadError) {
         console.error("Error uploading image:", uploadError);
+        // Show error message if image upload fails
         Swal.fire({
           title: "Upload Failed!",
           text: "There was an error uploading your image. Please try again.",
@@ -119,6 +104,7 @@ const Page = () => {
         Swal.close(); // Close the loading dialog
       }
     } else {
+      // Show warning if no image is selected
       Swal.fire({
         title: "No Image!",
         text: "Please select an image to upload.",
@@ -129,64 +115,38 @@ const Page = () => {
 
   return (
     <div className="">
-      <DashboardHeadImage
-        title={"Add New Service"}
-        subTile={"Add Service"}
-      />
+      <DashboardHeadImage title={"Add New Product"} subTile={"Add Product"} />
       <div className="h-full max-w-full bg-[#F3F3F3] rounded-[10px] lg:p-[97px] md:p-[97px] p-[10%] my-[130px]">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 mt-[50px]"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-[50px]">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {/* Service Name Input */}
+            {/* Product Name Input */}
             <div className="space-y-1">
               <input
-                {...register("serviceName", {
-                  required: "Service name is required",
+                {...register("productName", {
+                  required: "Product name is required",
                 })}
-                placeholder="Service Name"
+                placeholder="Product Name"
                 className="w-full bg-white border border-gray-300 py-2 h-[60px] px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
               />
-              {errors.serviceName && (
-                <p className="text-red-500">
-                  {errors.serviceName.message}
-                </p>
+              {errors.productName && (
+                <p className="text-red-500">{errors.productName.message}</p>
               )}
             </div>
 
-            {/* Service Price Input */}
+            {/* Product Price Input */}
             <div className="space-y-1">
               <input
-                {...register("servicePrice", {
-                  required: "Service Price is required",
+                {...register("productPrice", {
+                  required: "Product Price is required",
                 })}
                 type="number"
-                placeholder="Service Price"
+                placeholder="Product Price"
                 className="w-full bg-white border border-gray-300 py-2 h-[60px] px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
               />
-              {errors.servicePrice && (
-                <p className="text-red-500">
-                  {errors.servicePrice.message}
-                </p>
+              {errors.productPrice && (
+                <p className="text-red-500">{errors.productPrice.message}</p>
               )}
             </div>
-          </div>
-
-          {/* Service Description Input */}
-          <div className="space-y-1">
-            <textarea
-              {...register("serviceDescription", {
-                required: "Service description is required",
-              })}
-              placeholder="Service Description"
-              className="w-full bg-white border border-gray-300 py-6 h-[250px] px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-            />
-            {errors.serviceDescription && (
-              <p className="text-red-500">
-                {errors.serviceDescription.message}
-              </p>
-            )}
           </div>
 
           {/* Upload Image Input */}
@@ -215,9 +175,9 @@ const Page = () => {
             type="submit"
             className={`w-full py-3 mt-4 rounded-lg bg-[#FF3811] text-white font-medium hover:scale-105 transition transform duration-300 ease-in-out cursor-pointer ${
               loading ? "opacity-50 cursor-not-allowed" : ""
-            }`} // Disable button while loading
-            value={loading ? "Adding Service..." : "Add Service"} // Show loading text
-            disabled={loading} // Disable button while loading
+            }`}
+            value={loading ? "Adding Product..." : "Add Product"}
+            disabled={loading}
           />
         </form>
       </div>

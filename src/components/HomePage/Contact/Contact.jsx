@@ -22,7 +22,7 @@ const Contact = () => {
   return (
     <div className="bg-[#151515] rounded-lg px-[72px] py-[96px] text-white 
     flex flex-col lg:flex-row justify-between items-center gap-6 
-    lg:gap-12 mt-12 lg:mt-24">
+    lg:gap-12 mt-12 lg:mt-24" data-aos="zoom-in-up">
       {details.map((detail, index) => (
         <div key={index} className="flex items-center gap-4 lg:gap-6">
           <div>

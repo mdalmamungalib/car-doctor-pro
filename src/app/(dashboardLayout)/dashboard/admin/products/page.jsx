@@ -9,30 +9,33 @@ import { RxCross2 } from "react-icons/rx";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import Swal from "sweetalert2";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";
+
 export const dynamic = "force-dynamic";
 
 const Page = () => {
   const {
-    data: services = [],
+    data: products = [],
     refetch,
     isLoading,
     isError,
     error,
   } = useQuery({
-    queryKey: ["services"],
+    queryKey: ["products"],
     queryFn: async () => {
       const response = await axiosSecure.get(
-        `/services/api/get-all`
+        `/dashboard/admin/products/api/new-product`
       );
-      return response.data.services;
+      return response.data;
     },
   });
+
+  console.log(products);
 
   if (isLoading) {
     return <LoadingPage />;
   }
 
-  const handleDeleteService = async (id) => {
+  const handleDeleteProduct = async (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won’t be able to revert this!",
@@ -47,35 +50,36 @@ const Page = () => {
         try {
           // Perform delete operation
           const res = await axiosSecure.delete(
-            `/dashboard/admin/services/api/delete-service/${id}`
+            `/dashboard/admin/products/api/product-id/${id}`
           );
+          console.log(res);
 
           // Check the response status
           if (res.status === 200 || res.status === 204) {
-            // Adjust according to your API response
             // Show success message
             Swal.fire({
               title: "Deleted!",
-              text: "Service has been deleted.",
+              text: "Product has been deleted.",
               icon: "success",
               confirmButtonColor: "#3085d6",
             });
-            // Optionally refetch data
+            // Optionally refetch data to update the product list in the UI
             refetch();
           } else {
-            // If the status is not successful, show error message
+            // Handle error if the response is not successful
             Swal.fire({
               title: "Error!",
-              text: "Failed to delete the service.",
+              text: "Failed to delete the product.",
               icon: "error",
               confirmButtonColor: "#3085d6",
             });
           }
         } catch (error) {
-          // Show error notification on request failure
+          // Handle error if the request fails
+          console.error("Error deleting product:", error);
           Swal.fire({
             title: "Error!",
-            text: "An error occurred while deleting the service.",
+            text: "An error occurred while deleting the product.",
             icon: "error",
             confirmButtonColor: "#3085d6",
           });
@@ -85,17 +89,16 @@ const Page = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 mb-[80px]">
       <DashboardHeadImage
-        title={"Manage All Services"}
-        subTile={"All Services Details"}
+        title={"Manage All Products"}
+        subTile={"All Product Details"}
       />
-      
       <div className="flex justify-end mt-4">
-        <Link href="/dashboard/admin/add-service">
+        <Link href="/dashboard/admin/products/add-product">
           <button className="flex items-center gap-2 bg-[#FF3811] text-white px-4 py-2 mt-10 rounded-full hover:bg-[#e63610] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]">
             <IoMdAddCircleOutline className="w-6 h-6" />
-            <span>Add New Service</span>
+            <span>Add New Product</span>
           </button>
         </Link>
       </div>
@@ -111,12 +114,12 @@ const Page = () => {
             </tr>
           </thead>
           <tbody>
-            {services.map((service, index) => (
+            {products.map((product, index) => (
               <tr key={index} className="border-b border-gray-200">
                 <td className="p-3">
                   <button
                     onClick={() =>
-                      handleDeleteService(service?._id)
+                      handleDeleteProduct(product?._id)
                     }
                     className="bg-[#444444] hover:bg-[#FF3811] rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]"
                     aria-label="Close"
@@ -125,8 +128,9 @@ const Page = () => {
                   </button>
                 </td>
                 <td className="p-3">
+                
                   <Image
-                    src={service?.img}
+                    src={product?.img}
                     alt="User Image"
                     width={150}
                     height={150}
@@ -135,18 +139,18 @@ const Page = () => {
                 </td>
                 <td className="p-3">
                   <h3 className="text-sm sm:text-lg font-semibold text-[#444444]">
-                    {service?.title}
+                    {product?.title}
                   </h3>
                 </td>
                 <td className="p-3">
                   <h3 className="text-sm sm:text-lg font-semibold text-[#444444]">
-                    ${service?.price}
+                    ${product?.price}
                   </h3>
                 </td>
                 <td className="p-3">
                   <div className="text-sm sm:text-lg font-semibold text-[#444444]">
                     <Link
-                      href={`/dashboard/admin/services/update-service/${service?._id}`}
+                      href={`/dashboard/admin/products/update-product/${product?._id}`}
                     >
                       <button className="text-2xl button">
                         <MdEditSquare />

@@ -68,7 +68,7 @@ const Team = () => {
   }, []);
 
   return (
-    <div className="mt-[132px] px-4 relative overflow-visible">
+    <div className="mt-[132px] px-4 relative overflow-visible" data-aos="zoom-in">
     <HeadLayout
       headTitle="Team"
       title="Meet Our Team"

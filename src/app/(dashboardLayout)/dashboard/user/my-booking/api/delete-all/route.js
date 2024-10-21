@@ -1,5 +1,6 @@
 import { connectDB } from "lib/connectDB";
 import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
 
 export const DELETE = async (request) => {
   const db = await connectDB();

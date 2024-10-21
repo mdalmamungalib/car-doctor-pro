@@ -1,10 +1,10 @@
 import { connectDB } from "lib/connectDB";
 import { ObjectId } from "mongodb";
-import { unstable_noStore as noStore } from 'next/cache';
+
 export const dynamic = "force-dynamic";
 
 export const DELETE = async (request, { params }) => {
-  noStore()
+  
   const { id } = params; // Extract the id from params
 
   try {

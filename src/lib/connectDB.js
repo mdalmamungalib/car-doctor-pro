@@ -1,4 +1,5 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
+export const dynamic = "force-dynamic";
 
 let db;
 export const connectDB = async () => {

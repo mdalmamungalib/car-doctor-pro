@@ -52,7 +52,6 @@ const Page = () => {
           );
 
           if (res.status === 200 || res.status === 204) {
-
             Swal.fire({
               title: "Deleted!",
               text: "Review has been deleted.",
@@ -85,9 +84,11 @@ const Page = () => {
   }
 
   return (
-    
-        <div className="mb-[130px]">
-      <DashboardHeadImage title={"Review Details"} subTile={"Review Details"}/>
+    <div className="mb-[130px]">
+      <DashboardHeadImage
+        title={"Manage All Review"}
+        subTile={"Review Details"}
+      />
       <div className="w-full overflow-x-auto mt-[130px]">
         <table className="min-w-full border-collapse table-auto md:table-auto">
           <tbody>
@@ -100,7 +101,9 @@ const Page = () => {
                   <div className="flex items-center justify-center ">
                     <td className="p-3">
                       <button
-                        onClick={() => handleDeleteReview(review?._id)}
+                        onClick={() =>
+                          handleDeleteReview(review?._id)
+                        }
                         className="bg-[#444444] rounded-full p-3 hover:bg-[#FF3811] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]"
                         aria-label="Close"
                       >
@@ -130,21 +133,21 @@ const Page = () => {
                     </h3>
                   </td>
                   <td className="p-3">
-                  <p className="text-sm sm:text-base md:text-[16px] lg:text-base font-normal text-[#737373] leading-[25px] md:leading-[28px] lg:leading-[30px] capitalize overflow-auto w-[230px] max-h-[80px]">
+                    <p className="text-sm sm:text-base md:text-[16px] lg:text-base font-normal text-[#737373] leading-[25px] md:leading-[28px] lg:leading-[30px] capitalize overflow-auto w-[230px] max-h-[80px]">
                       {review?.description}
                     </p>
                   </td>
                   <td className="p-3">
-                  <div className="text-sm sm:text-lg font-semibold text-[#444444]">
-                    <Link
-                      href={`/dashboard/user/order-review/update-review/${review?._id}`}
-                    >
-                      <button className="text-2xl button">
-                        <MdEditSquare />
-                      </button>
-                    </Link>
-                  </div>
-                </td>
+                    <div className="text-sm sm:text-lg font-semibold text-[#444444]">
+                      <Link
+                        href={`/dashboard/user/order-review/update-review/${review?._id}`}
+                      >
+                        <button className="text-2xl button">
+                          <MdEditSquare />
+                        </button>
+                      </Link>
+                    </div>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -160,8 +163,7 @@ const Page = () => {
           </tbody>
         </table>
       </div>
-     
-      
+
       <style jsx global>{`
         /* Custom scrollbar styles for WebKit browsers */
         .overflow-auto::-webkit-scrollbar {

@@ -7,11 +7,13 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import axiosSecure from "lib/axios";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 export const dynamic = "force-dynamic";
 
-const CheckoutPage = ({ params }) => {
+const Page = ({ params }) => {
   const router = useRouter();
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(false); 
 
   const {
     register,
@@ -39,8 +41,9 @@ const CheckoutPage = ({ params }) => {
 
   // Handle form submission
   const onSubmit = async (formData) => {
+    setLoading(true); // Start loading on submit
     const newBooking = {
-      name: formData?.firstName && formData?.lastName,
+      name: `${formData?.firstName} ${formData?.lastName}`,
       email: formData?.email,
       phone: formData?.phone,
       message: formData?.message,
@@ -51,43 +54,46 @@ const CheckoutPage = ({ params }) => {
       status: "Pending"
     };
 
-    const res = await axiosSecure.post(
-      "/checkout/api/new-booking",
-      newBooking
-    );
+    try {
+      const res = await axiosSecure.post(
+        "/checkout/api/new-booking",
+        newBooking
+      );
 
-    if (res?.status === 201) {
-      reset();
-      router.push("/");
-      refetch();
-      Swal.fire({
-        title: "Booking Added!",
-        text: "Your booking has been successfully added. Would you like to check all bookings or continue shopping?",
-        icon: "success",
-        showCancelButton: true,
-        confirmButtonText: "Check All Bookings",
-        cancelButtonText: "Continue Shopping",
-        confirmButtonColor: "#FF3811", // Customize button color
-        cancelButtonColor: "#444444", // Customize button color
-        buttonsStyling: false, // Disable default button styles
-        customClass: {
-          confirmButton:
-            "bg-[#FF3811] text-white py-2 px-4 rounded-full mx-2", // Style confirm button
-          cancelButton:
-            "bg-[#444444] text-white py-2 px-4 rounded-full mx-2", // Style cancel button
-          popup: "rounded-xl shadow-lg", // Popup style
-          title: "text-xl font-bold text-[#444444]", // Title style
-          htmlContainer: "text-sm text-[#555555]", // Text style
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Redirect to the bookings page
-          window.location.href = "/dashboard/user/my-booking";
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          // Redirect to the shopping page
-          window.location.href = "/services";
-        }
-      });
+      if (res?.status === 201) {
+        reset();
+        router.push("/");
+
+        Swal.fire({
+          title: "Booking Added!",
+          text: "Your booking has been successfully added. Would you like to check all bookings or continue shopping?",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonText: "Check All Bookings",
+          cancelButtonText: "Continue Shopping",
+          confirmButtonColor: "#FF3811",
+          cancelButtonColor: "#444444",
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "bg-[#FF3811] text-white py-2 px-4 rounded-full mx-2",
+            cancelButton: "bg-[#444444] text-white py-2 px-4 rounded-full mx-2",
+            popup: "rounded-xl shadow-lg",
+            title: "text-xl font-bold text-[#444444]",
+            htmlContainer: "text-sm text-[#555555]",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/dashboard/user/my-booking";
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            window.location.href = "/services";
+          }
+        });
+      }
+    } catch (err) {
+      // Handle error (optional)
+      console.error(err);
+    } finally {
+      setLoading(false); // Stop loading after submit
     }
   };
 
@@ -204,8 +210,11 @@ const CheckoutPage = ({ params }) => {
           {/* Submit Button */}
           <input
             type="submit"
-            className="w-full py-3 mt-4 rounded-lg bg-[#FF3811] text-white font-medium hover:scale-105 transition transform duration-300 ease-in-out cursor-pointer"
-            value="Order Confirm"
+            className={`w-full py-3 mt-4 rounded-lg text-white font-medium transition-transform duration-300 ease-in-out cursor-pointer ${
+              loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#FF3811] hover:scale-105"
+            }`}
+            value={loading ? "Processing..." : "Order Confirm"}
+            disabled={loading}
           />
         </form>
       </div>
@@ -213,4 +222,4 @@ const CheckoutPage = ({ params }) => {
   );
 };
 
-export default CheckoutPage;
+export default Page;

@@ -6,6 +6,11 @@ import LoadingPage from "components/LoadingPage/LoadingPage";
 import axiosSecure from "lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import HeadLayout from "components/shared/HeadLayout";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+AOS.init();
+
+export const dynamic = "force-dynamic";
 
 const Services =  () => {
   
@@ -39,7 +44,8 @@ const Services =  () => {
   }
   return (
     
-    <div className="mt-[132px] px-4">
+    <div className="mt-[132px] px-4 " data-aos="fade-up"
+    data-aos-duration="1500">
       <HeadLayout
         headTitle="Service"
         title="Our Service Area"
@@ -48,7 +54,7 @@ const Services =  () => {
           slightly believable."
       />
 
-      <div className="grid grid-cols-1 gap-6 mx-auto my-12 lg:grid-cols-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 mx-auto my-12 lg:grid-cols-3 sm:grid-cols-2" >
         {services && services.length > 0 ? (
           services.slice(0,6).map((service, index) => (
             <Card key={index} service={service} />

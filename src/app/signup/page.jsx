@@ -9,6 +9,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import axiosSecure from "lib/axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
 export const dynamic = "force-dynamic";
 
 const Page = () => {
@@ -30,7 +31,7 @@ const Page = () => {
       email: data?.email,
       password: data?.password,
       role: "user",
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     };
 
     setLoading(true); // Start loading
@@ -38,17 +39,12 @@ const Page = () => {
     try {
       // Make the POST request using axios
       const res = await axiosSecure.post(
-        "http://localhost:3000/signup/api",
+        "/signup/api",
         newUser
       );
-
-      // No need to parse with res.json() as Axios does this automatically
+   
       const result = res.data;
-
-      // Check the response status
       if (res.status === 201) {
-        // Use res.status instead of res.ok
-        // Success notification
         Swal.fire({
           position: "center",
           icon: "success",
@@ -83,11 +79,10 @@ const Page = () => {
         });
       }
     } catch (error) {
-      console.error("Error registering user:", error);
       Swal.fire({
         position: "center",
         icon: "error",
-        title: "An error occurred. Please try again later.",
+        title: error.response?.data.message || "An error occurred. Please try again later.",
         showConfirmButton: false,
         timer: 2000,
         customClass: {
