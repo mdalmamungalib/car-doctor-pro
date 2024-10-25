@@ -1,10 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import {
-  HiOutlineArrowRight,
-  HiOutlineArrowLeft,
-} from "react-icons/hi";
+import { HiOutlineArrowRight, HiOutlineArrowLeft } from "react-icons/hi";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,10 +13,6 @@ import LoadingPage from "components/LoadingPage/LoadingPage";
 import Link from "next/link";
 
 const Page = () => {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
-  const swiperRef = useRef(null);
-
   const {
     data: members = [],
     isLoading,
@@ -32,6 +25,34 @@ const Page = () => {
       return response.data;
     },
   });
+
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const swiperRef = useRef(null);
+
+  // Initialize Swiper navigation with a delay
+  useEffect(() => {
+    const initializeNavigation = () => {
+      if (
+        swiperRef.current &&
+        swiperRef.current.swiper &&
+        prevRef.current &&
+        nextRef.current
+      ) {
+        const swiperInstance = swiperRef.current.swiper;
+
+        swiperInstance.params.navigation.prevEl = prevRef.current;
+        swiperInstance.params.navigation.nextEl = nextRef.current;
+
+        swiperInstance.navigation.init();
+        swiperInstance.navigation.update();
+      }
+    };
+
+    // Set a timeout to allow refs to be available
+    const timer = setTimeout(initializeNavigation, 100);
+    return () => clearTimeout(timer);
+  }, [prevRef, nextRef, swiperRef]);
 
   if (isLoading) {
     return <LoadingPage />;
@@ -52,19 +73,15 @@ const Page = () => {
       {/* Wrapper for Swiper and Buttons */}
       <div className="relative max-w-full p-4 overflow-hidden ">
         <Swiper
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper;
-            if (prevRef.current && nextRef.current) {
-              swiper.params.navigation.prevEl = prevRef.current;
-              swiper.params.navigation.nextEl = nextRef.current;
-              swiper.navigation.init();
-              swiper.navigation.update();
-            }
-          }}
+          ref={swiperRef}
           modules={[Navigation, Pagination]}
           spaceBetween={30}
           slidesPerView={1}
-          pagination={{ clickable: true }}
+          pagination={{
+            clickable: true,
+            bulletClass: "swiper-pagination-bullet",
+            bulletActiveClass: "swiper-pagination-bullet-active",
+          }}
           breakpoints={{
             640: { slidesPerView: 1, spaceBetween: 20 },
             768: { slidesPerView: 2, spaceBetween: 30 },
@@ -73,22 +90,10 @@ const Page = () => {
         >
           {members.map((member, index) => {
             const socials = [
-              {
-                icon: "/assets/icons/social/facebook.svg",
-                link: member.facebook || "#",
-              },
-              {
-                icon: "/assets/icons/social/twitter.svg",
-                link: member.twitter || "#",
-              },
-              {
-                icon: "/assets/icons/social/linkdin.svg",
-                link: member.linkedin || "#",
-              },
-              {
-                icon: "/assets/icons/social/instagram.svg",
-                link: member.instagram || "#",
-              },
+              { icon: "/assets/icons/social/facebook.svg", link: member.facebook || "#" },
+              { icon: "/assets/icons/social/twitter.svg", link: member.twitter || "#" },
+              { icon: "/assets/icons/social/linkdin.svg", link: member.linkedin || "#" },
+              { icon: "/assets/icons/social/instagram.svg", link: member.instagram || "#" },
             ];
 
             return (
@@ -104,20 +109,11 @@ const Page = () => {
                     />
                   </figure>
                   <div className="px-4 pb-4 text-center space-y-[10px]">
-                    <h2 className="font-bold text-[25px] text-[#444444]">
-                      {member.name}
-                    </h2>
-                    <h4 className="text-xl font-semibold text-[#737373]">
-                      {member.jobTitle}
-                    </h4>
+                    <h2 className="font-bold text-[25px] text-[#444444]">{member.name}</h2>
+                    <h4 className="text-xl font-semibold text-[#737373]">{member.jobTitle}</h4>
                     <div className="flex justify-center space-x-3">
                       {socials.map((social, i) => (
-                        <Link
-                          key={i}
-                          href={social.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
+                        <Link key={i} href={social.link} target="_blank" rel="noopener noreferrer">
                           <Image
                             src={social.icon}
                             alt={`${social.link} icon`}
@@ -138,12 +134,14 @@ const Page = () => {
         {/* Navigation Buttons */}
         <div
           ref={prevRef}
+          onClick={() => swiperRef.current.swiper.slidePrev()}
           className="absolute left-4 top-1/2 transform -translate-y-1/2 w-[60px] h-[60px] flex justify-center items-center bg-[#F3F3F3] text-[#444444] hover:text-white hover:bg-[#FF3811] rounded-full cursor-pointer z-10"
         >
           <HiOutlineArrowLeft className="h-[24px] w-[24px]" />
         </div>
         <div
           ref={nextRef}
+          onClick={() => swiperRef.current.swiper.slideNext()}
           className="absolute right-4 top-1/2 transform -translate-y-1/2 w-[60px] h-[60px] flex justify-center items-center bg-[#F3F3F3] text-[#444444] hover:text-white hover:bg-[#FF3811] rounded-full cursor-pointer z-10"
         >
           <HiOutlineArrowRight className="h-[24px] w-[24px]" />
