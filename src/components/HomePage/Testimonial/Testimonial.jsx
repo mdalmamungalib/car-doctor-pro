@@ -74,7 +74,7 @@ const Testimonial = () => {
   }
 
   return (
-    <div className="my-[132px] px-4 " data-aos="zoom-in-up">
+    <div className="my-[132px] " data-aos="zoom-in-up">
       <HeadLayout
         headTitle="Testimonial"
         title="What Customer Says"
@@ -82,7 +82,7 @@ const Testimonial = () => {
           injected humour, or randomised words which don't look even
           slightly believable."
       />
-      <div className="relative overflow-visible mt-[50px]">
+      <div className="relative max-w-full p-4 overflow-hidden mt-[50px]">
         {/* Swiper Component */}
         <Swiper
           ref={swiperRef}
@@ -166,14 +166,14 @@ const Testimonial = () => {
         <div
           ref={prevRef}
           onClick={() => swiperRef.current.swiper.slidePrev()}
-          className="custom-prev w-[60px] h-[60px] flex justify-center items-center text-[#444444] hover:text-[#FFFFFF] bg-[#F3F3F3] hover:bg-[#FF3811] rounded-full cursor-pointer absolute -left-[30px] top-1/2 transform -translate-y-1/2 z-10"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 w-[60px] h-[60px] flex justify-center items-center bg-[#F3F3F3] text-[#444444] hover:text-white hover:bg-[#FF3811] rounded-full cursor-pointer z-10"
         >
           <HiOutlineArrowLeft className="h-[24px] w-[24px]" />
         </div>
         <div
           ref={nextRef}
           onClick={() => swiperRef.current.swiper.slideNext()}
-          className="custom-next w-[60px] h-[60px] flex justify-center items-center text-[#444444] hover:text-[#FFFFFF] bg-[#F3F3F3] hover:bg-[#FF3811] rounded-full cursor-pointer absolute -right-[30px] top-1/2 transform -translate-y-1/2 z-10"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 w-[60px] h-[60px] flex justify-center items-center bg-[#F3F3F3] text-[#444444] hover:text-white hover:bg-[#FF3811] rounded-full cursor-pointer z-10"
         >
           <HiOutlineArrowRight className="h-[24px] w-[24px]" />
         </div>

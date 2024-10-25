@@ -63,6 +63,7 @@ const DashBoardNavbar = () => {
       path: "/dashboard/admin/all-bookings",
     },
     { title: "Products", path: "/dashboard/admin/products" },
+    { title: "Team", path: "/dashboard/admin/team" },
 
     { title: "Home", path: "/" },
   ];

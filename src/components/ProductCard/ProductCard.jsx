@@ -5,14 +5,14 @@ const ProductCard = ({ product }) => {
   const { price, img, title, _id } = product;
   return (
     <div className="bg-white border border-gray-200 rounded-lg max-w-full sm:max-w-[300px] md:max-w-[340px] lg:max-w-[364px] min-h-[348px] mx-auto px-[19px] py-[25px]">
-      <div className="bg-[#F3F3F3] rounded-[10px] ">
-        <figure className="px-[85px] py-[31px]">
+      <div className="bg-[#F3F3F3] rounded-[10px] flex justify-center items-center">
+        <figure className="px-[85px] py-[35px]">
           <Image
-            height={156}
-            width={156}
+            height={157}
+            width={196}
             src={img}
             alt={title}
-            className="rounded-[10px] object-cover w-[156px]  h-[156px]"
+            className="rounded-[10px] object-fill max-w-[196px] h-[157px]"
           />
         </figure>
       </div>
