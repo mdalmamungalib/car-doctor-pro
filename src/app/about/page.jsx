@@ -2,7 +2,33 @@ import HeadImage from "components/HomePage/HeadImage";
 import Image from "next/image";
 export const dynamic = "force-dynamic";
 
+export async function generateMetadata({ params }) {
+  return {
+    title: "About Us",
+    description: "We are a team of passionate, dedicated, and committed professionals who strive to provide the best possible service to our customers.",
+    keywords: ["car repair", "car service", "auto workshop", "professional mechanics"],
+    icons: {
+      icon: "/favicon.ico", // Path to favicon in the public directory
+    },
+    openGraph: {
+      title: "About Us - Car Doctor",
+      description: "We are a team of passionate, dedicated, and committed professionals who strive to provide the best possible service to our customers.",
+      images: [
+        {
+          url: "/favicon.ico",
+          width: 1200,
+          height: 630,
+          alt: "Car Doctor Logo",
+        },
+      ],
+    },
+  };
+}
+
+
+
 const About = () => {
+  
   return (
     <div className="min-h-screen text-gray-800 about-page-container bg-gray-50 mb-[130px]">
       {/* Hero Section */}

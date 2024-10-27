@@ -11,24 +11,37 @@ import { HiOutlineDocumentChartBar } from "react-icons/hi2";
 
 export const dynamic = "force-dynamic";
 
-const ServiceSide = ({ services,  params }) => {
+const ServiceSide = ({ service}) => {
   const currentPath = usePathname(); // Get the current pathname
   
+  // Fetch services using React Query
   const {
-    data: service = {},
+    data: services = [],
     isLoading,
     isError,
     error,
   } = useQuery({
-    queryKey: ["service", params?.id],
+    queryKey: ["services"],
     queryFn: async () => {
-      const response = await axiosSecure.get(`/services/api/${params?.id}`);
-      return response.data;
+      const response = await axiosSecure.get(
+        `/services/api/get-all`
+      );
+      return response.data.services;
     },
   });
-  
+
+
+  // Handle loading and error states
   if (isLoading) {
     return <LoadingPage />;
+  }
+
+  if (isError) {
+    return (
+      <p className="mt-12 text-center text-red-500">
+        Error: {error.message}
+      </p>
+    );
   }
 
   return (

@@ -13,9 +13,16 @@ export const dynamic = "force-dynamic";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "CAr Doctor Pro",
-  description: "Car reaper work shop",
+  title: {
+    default: "Car Doctor",
+    template: "%s | Car Doctor"
+  },
+  description: "Car repair workshop",
+  keywords: ["car repair", "workshop", "car service"],
+ 
 };
+
+
 
 export default function RootLayout({ children }) {
   return (
