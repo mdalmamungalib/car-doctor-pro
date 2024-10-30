@@ -19,7 +19,6 @@ const MyBooking = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   
   console.log("User Email:", session?.user?.email);
-
   
   const {
     data: bookings = [],
@@ -30,15 +29,10 @@ const MyBooking = () => {
   } = useQuery({
     queryKey: ["bookings", session?.user?.email],
     queryFn: async () => {
-      try {
-        const response = await axiosSecure.get(
-          `/dashboard/my-booking/api/${session?.user?.email}`
-        );
-        return response.data.myBookings;
-      } catch (err) {
-        console.error("Error fetching bookings:", err);
-        throw new Error("Failed to fetch bookings");
-      }
+      const response = await axiosSecure.get(
+        `/dashboard/my-booking/api/${session?.user?.email}`
+      );
+      return response.data;
     },
     enabled: !!session?.user?.email,
   });
