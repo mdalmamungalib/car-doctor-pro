@@ -8,13 +8,12 @@ import FacebookProvider from "next-auth/providers/facebook";
 import bcrypt from "bcrypt";
 export const dynamic = "force-dynamic";
 
-// Define authOptions to be used in both NextAuth and other parts of the app
 export const authOptions = {
   secret: process.env.NEXT_PUBLIC_AUTH_SECRET,
 
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60, 
     rolling: false,
   },
 
@@ -48,13 +47,12 @@ export const authOptions = {
           return null;
         }
 
-        // Return user object with necessary fields, including role
         return {
           id: currentUser._id.toString(),
           name: currentUser.name,
           email: currentUser.email,
-          image: currentUser.image, // Assuming image is stored in the database
-          role: currentUser.role || "user", // Default to "user" if no role is set
+          image: currentUser.image, 
+          role: currentUser.role || "user", 
         };
       },
     }),
@@ -81,7 +79,6 @@ export const authOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      // If user is available (on login), add user data to the JWT token
       if (user) {
         token.id = user.id;
         token.role = user.role;
@@ -89,7 +86,6 @@ export const authOptions = {
         token.name = user.name;
         token.image = user.image;
       } else {
-        // Fetch user from DB on subsequent token checks (e.g., when revalidating session)
         const db = await connectDB();
         const existingUser = await db
           .collection("users")
@@ -102,7 +98,6 @@ export const authOptions = {
     },
 
     async session({ session, token }) {
-      // Attach the user data from the JWT token to the session object
       session.user.id = token.id;
       session.user.role = token.role;
       session.user.email = token.email;
@@ -125,7 +120,6 @@ export const authOptions = {
           });
 
           if (!existingUser) {
-            // Insert new user if not found in the database
             const newUser = await userCollection.insertOne({
               id,
               name,
@@ -133,12 +127,11 @@ export const authOptions = {
               image,
               provider: account.provider,
               createdAt: new Date(),
-              role: "user", // Default role for new users
+              role: "user", 
             });
 
             return { id: newUser.insertedId.toString(), ...user };
           } else {
-            // Return existing user details if already in the database
             return {
               id: existingUser._id.toString(),
               ...existingUser,
@@ -146,16 +139,14 @@ export const authOptions = {
           }
         } catch (error) {
           console.error("Error in signIn callback:", error);
-          return false; // Deny access on error
+          return false; 
         }
       } else {
-        // For credentials login, return the user object directly
         return user;
       }
     },
   },
 };
 
-// Export the NextAuth handler with authOptions
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

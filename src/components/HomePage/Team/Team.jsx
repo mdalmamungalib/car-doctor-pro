@@ -30,7 +30,6 @@ const Page = () => {
   const nextRef = useRef(null);
   const swiperRef = useRef(null);
 
-  // Initialize Swiper navigation with a delay
   useEffect(() => {
     const initializeNavigation = () => {
       if (
@@ -49,7 +48,6 @@ const Page = () => {
       }
     };
 
-    // Set a timeout to allow refs to be available
     const timer = setTimeout(initializeNavigation, 100);
     return () => clearTimeout(timer);
   }, [prevRef, nextRef, swiperRef]);

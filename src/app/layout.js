@@ -8,6 +8,7 @@ import AuthProvider from "@/services/AuthProvider";
 import UseQueryClientProvider from "@/services/UseQueryClientProvider";
 import "@smastrom/react-rating/style.css";
 import HomeLayout from "components/HomeLayout/HomeLayout";
+import SessionWarper from "@/services/SessionWarper";
 export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,11 +29,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} bg-white text-black`}>
+        <SessionWarper>
         <UseQueryClientProvider>
           <AuthProvider>
             <HomeLayout>{children}</HomeLayout>
           </AuthProvider>
         </UseQueryClientProvider>
+        </SessionWarper>
       </body>
     </html>
   );

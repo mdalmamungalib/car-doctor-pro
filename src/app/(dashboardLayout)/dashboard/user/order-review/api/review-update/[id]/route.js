@@ -28,7 +28,6 @@ export const PATCH = async (request, { params }) => {
   } catch (error) {
     console.error("Error updating review:", error);
 
-    // Handle any errors and return a 500 response
     return NextResponse.json({ error: "Failed to update review" }, { status: 500 });
   }
 };

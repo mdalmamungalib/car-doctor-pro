@@ -35,16 +35,13 @@ const Testimonial = () => {
   const nextRef = useRef(null);
   const swiperRef = useRef(null);
 
-  // Initialize Swiper navigation
   useEffect(() => {
     if (swiperRef.current) {
       const swiperInstance = swiperRef.current.swiper;
 
-      // Ensure navigation buttons are set correctly
       swiperInstance.params.navigation.prevEl = prevRef.current;
       swiperInstance.params.navigation.nextEl = nextRef.current;
 
-      // Initialize and update navigation
       swiperInstance.navigation.init();
       swiperInstance.navigation.update();
     }
@@ -74,7 +71,7 @@ const Testimonial = () => {
   }
 
   return (
-    <div className="my-[132px] " data-aos="zoom-in-up">
+    <div className="mt-[132px] " data-aos="zoom-in-up">
       <HeadLayout
         headTitle="Testimonial"
         title="What Customer Says"

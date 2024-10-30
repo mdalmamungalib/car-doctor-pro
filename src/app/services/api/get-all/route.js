@@ -1,4 +1,5 @@
 import { connectDB } from "lib/connectDB";
+import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export const GET = async () => {
@@ -6,16 +7,15 @@ export const GET = async () => {
     const db = await connectDB();
     const servicesCollection = db.collection("services");
 
-    // Fetch services from the collection
     const services = await servicesCollection.find().toArray();
 
-    return new Response(JSON.stringify({ services }), {
+    return new NextResponse(JSON.stringify({ services }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
     console.error("Error fetching services:", error);
-    return new Response(
+    return new NextResponse(
       JSON.stringify({
         message: "Failed to fetch services",
         error: error.message,

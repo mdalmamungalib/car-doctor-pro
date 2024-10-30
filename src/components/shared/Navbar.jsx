@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 const Navbar = () => {
   const [booking, setBooking] = useState([]);
   const router = useRouter();
-  const pathname = usePathname(); // Get the current path
+  const pathname = usePathname(); 
 
   const { data: session, status } = useSession();
 
@@ -38,6 +38,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
+       await refetch();
         const res = await axiosSecure.get(
           "/checkout/api/all-bookings"
         );
@@ -50,14 +51,14 @@ const Navbar = () => {
     fetchBooking();
   }, [refetch]);
 
-  // Handle click to navigate to the dashboard
+ 
   const handleClick = () => {
     refetch();
     router.push(
       session.user.role === "admin"
         ? "/dashboard/admin/services"
         : "/dashboard/user/my-booking"
-    ); // Navigate to dashboard
+    ); 
   };
 
   const loginHandler = () => {
@@ -177,7 +178,9 @@ const Navbar = () => {
             >
               {/* Notification badge for bookings */}
               <p className="absolute -top-2 -right-3 w-5 h-5 flex items-center justify-center bg-[#FF3811] text-white text-xs font-bold rounded-full transition-opacity duration-300 ease-in-out hover:opacity-80">
-                {session?.user?.role === "admin" ? booking.length : bookings.length}
+                {session?.user?.role === "admin"
+                  ? booking.length
+                  : bookings.length}
               </p>
               <BsHandbag className="text-black transition-transform duration-300 ease-in-out w-7 h-7 hover:scale-110 hover:text-[#FF3811]" />
             </div>

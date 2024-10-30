@@ -3,19 +3,10 @@ import HeadImage from "components/HomePage/HeadImage";
 import ServiceSide from "components/ServiceSide/ServiceSide";
 import Image from "next/image";
 
-import React, { useEffect, useState } from "react";
-import LoadingPage from "components/LoadingPage/LoadingPage";
-import { useQuery } from "@tanstack/react-query";
-import axiosSecure from "lib/axios";
-
-
 export const dynamic = "force-dynamic";
 
-const SingleService = ({ params, data: singleService }) => {
+const SingleService = ({ data: singleService }) => {
     
-  
-  
-  
 
   const step = [
     {

@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 const DashBoardNavbar = () => {
   const [booking, setBooking] = useState([]);
   const router = useRouter();
-  const pathname = usePathname(); // Get the current path
+  const pathname = usePathname(); 
 
   const { data: session } = useSession();
 
@@ -33,10 +33,12 @@ const DashBoardNavbar = () => {
     },
     enabled: !!session?.user?.email,
   });
+  refetch();
 
   useEffect(() => {
     const fetchBooking = async () => {
       try {
+       await refetch()
         const res = await axiosSecure.get(
           "/checkout/api/all-bookings"
         );

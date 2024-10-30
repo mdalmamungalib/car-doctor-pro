@@ -1,12 +1,14 @@
 import { connectDB } from "lib/connectDB";
-import { sendEmail } from "lib/sendEmail"; // Import the dynamic email function
+import { sendEmail } from "lib/sendEmail"; 
 
-export const dynamic = "force-dynamic"; // Enforce dynamic routing in Next.js
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic"; 
 
 export const POST = async (request) => {
   try {
     const booking = await request.json();
-    const { email, name, service, bookingData: date, } = booking;
+    const { email, name, service, bookingData: date } = booking;
 
     const db = await connectDB();
     const bookingCollection = db.collection("bookings");
@@ -129,7 +131,6 @@ Best regards,
 Your Company Team
 `;
 
-    // Send the email
     const emailResponse = await sendEmail({
       to: email,
       subject,
@@ -137,42 +138,39 @@ Your Company Team
       html,
     });
 
-    // Check if the email was successfully sent
     if (!emailResponse.success) {
-      return new Response(
+      return new NextResponse(
         JSON.stringify({
           message:
             "Service booked, but failed to send confirmation email",
         }),
         {
-          status: 500, // Internal server error (email failed)
+          status: 500,
           headers: { "Content-Type": "application/json" },
         }
       );
     }
 
-    // Return the booking confirmation response
-    return new Response(
+    return new NextResponse(
       JSON.stringify({
         message:
           "Service booked successfully, confirmation email sent.",
-        bookingId: newBooking.insertedId, // Return the booking ID
+        bookingId: newBooking.insertedId,
       }),
       {
-        status: 201, // HTTP status for "Created"
+        status: 201,
         headers: { "Content-Type": "application/json" },
       }
     );
   } catch (error) {
     console.error("Error booking service or sending email:", error);
 
-    // Return an error response
-    return new Response(
+    return new NextResponse(
       JSON.stringify({
         error: "Failed to book service and send email",
       }),
       {
-        status: 500, // Internal server error
+        status: 500,
         headers: { "Content-Type": "application/json" },
       }
     );

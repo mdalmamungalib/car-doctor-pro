@@ -1,6 +1,6 @@
 import ContactPage from "./ContactPage";
 
-// src/app/contact/metadata.js
+
 export async function generateMetadata() {
   return {
     title: "Contact Us",

@@ -7,25 +7,23 @@ import "../globals.css";
 import AuthProvider from "@/services/AuthProvider";
 import UseQueryClientProvider from "@/services/UseQueryClientProvider";
 import "@smastrom/react-rating/style.css";
+import SessionWarper from "@/services/SessionWarper";
 export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "CAr Doctor Pro",
-  description: "Car reaper work shop",
-};
-
 export default function RootLayout({ children }) {
   return (
-    <UseQueryClientProvider>
-      <AuthProvider>
-        <div
-          className={`min-h-screen max-w-[1140px] mx-auto p-5 lg:px-0 ${inter.className} bg-white text-black`}
-        >
-          {children}
-        </div>
-      </AuthProvider>
-    </UseQueryClientProvider>
+    <SessionWarper>
+      <UseQueryClientProvider>
+        <AuthProvider>
+          <div
+            className={`min-h-screen max-w-[1140px] mx-auto p-5 lg:px-0 ${inter.className} bg-white text-black`}
+          >
+            {children}
+          </div>
+        </AuthProvider>
+      </UseQueryClientProvider>
+      </SessionWarper>
   );
 }

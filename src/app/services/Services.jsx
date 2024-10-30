@@ -10,10 +10,8 @@ export const dynamic = "force-dynamic";
 
 
 const Services = () => {
-  // Search state for filtering services
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch services using React Query
   const {
     data: services = [],
     isLoading,
@@ -28,8 +26,6 @@ const Services = () => {
       return response.data.services;
     },
   });
-
-  // Handle loading and error states
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -42,7 +38,6 @@ const Services = () => {
     );
   }
 
-  // Filter services based on search query
   const filteredServices = services.filter((service) =>
     service.title.toLowerCase().includes(searchQuery.toLowerCase())
   );

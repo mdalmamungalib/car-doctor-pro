@@ -1,6 +1,6 @@
 import { connectDB } from "lib/connectDB";
 import bcrypt from "bcrypt";
-import { sendEmail } from "lib/sendEmail"; // Adjust the import path as necessary
+import { sendEmail } from "lib/sendEmail";
 export const dynamic = "force-dynamic";
 
 export const POST = async (request) => {
@@ -10,7 +10,6 @@ export const POST = async (request) => {
     const db = await connectDB();
     const userCollection = db.collection("users");
 
-    // Check if the user already exists
     const existingUser = await userCollection.findOne({
       email: newUser?.email,
     });
@@ -23,17 +22,12 @@ export const POST = async (request) => {
         { status: 400 }
       );
     }
-
-    // Password Security Considerations
     const hashPassword = bcrypt.hashSync(newUser?.password, 14);
 
-    // Insert the new user
     const res = await userCollection.insertOne({
       ...newUser,
       password: hashPassword,
     });
-
-    // Prepare email details
     const emailSubject = "🌍 Welcome to Our Global Community!";
     const emailText = `Hello ${newUser.name},
 
@@ -120,7 +114,6 @@ Your Company`;
       </html>
     `;
 
-    // Send the welcome email
     const emailSent = await sendEmail({
       to: newUser.email,
       subject: emailSubject,
@@ -128,7 +121,6 @@ Your Company`;
       html: emailHtml,
     });
 
-    // Return the created user data
     return new Response(
       JSON.stringify({
         status: 201,
@@ -138,7 +130,6 @@ Your Company`;
       { status: 201 }
     );
   } catch (error) {
-    // Handle errors
     console.error("Error creating user:", error);
     return new Response(
       JSON.stringify({

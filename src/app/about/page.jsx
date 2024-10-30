@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
     description: "We are a team of passionate, dedicated, and committed professionals who strive to provide the best possible service to our customers.",
     keywords: ["car repair", "car service", "auto workshop", "professional mechanics"],
     icons: {
-      icon: "/favicon.ico", // Path to favicon in the public directory
+      icon: "/favicon.ico", 
     },
     openGraph: {
       title: "About Us - Car Doctor",

@@ -1,25 +1,27 @@
 import { connectDB } from "lib/connectDB";
 import { ObjectId } from "mongodb";
+import { NextResponse } from 'next/server';
+
 export const dynamic = "force-dynamic";
 
 export const GET = async (request, { params }) => {
   try {
     const { id } = params;
 
-    const db = await connectDB();
-    const booking = await db
-      .collection("bookings")
-      .findOne({ _id: new ObjectId(id) });
-    if (!booking) {
-      return new Response("Booking not found", { status: 404 });
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ message: "Invalid booking ID" }, { status: 400 });
     }
 
-    return new Response(JSON.stringify(booking), {
-      status: 200,
-      headers: { "Content-type": "application/json" },
-    });
+    const db = await connectDB();
+    const booking = await db.collection("bookings").findOne({ _id: new ObjectId(id) });
+
+    if (!booking) {
+      return NextResponse.json({ message: "Booking not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(booking, { status: 200 });
   } catch (error) {
-    console.log("Error fetching booking:", error);
-    return new Response("Internal server error", { status: 500 });
+    console.error("Error fetching booking:", error);
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 };

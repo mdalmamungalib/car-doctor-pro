@@ -12,19 +12,18 @@ const SocialLogin = () => {
   const path = searchParams.get("redirect");
 
   const handleSocialLogin = async (provider) => {
-    setLoading(true); // Start loading when login starts
+    setLoading(true); 
 
     try {
-      // Attempt to sign in with the selected provider
+      
       const result = await signIn(provider, {
-        redirect: false, // Prevent automatic redirect
+        redirect: false, 
         callbackUrl: path ? path : "/",
       });
 
-      setLoading(false); // Stop loading after login attempt finishes
+      setLoading(false);
 
       if (result.error) {
-        // Show error message if login fails
         Swal.fire({
           title: "Login Failed",
           text: "Please try again.",
@@ -35,24 +34,21 @@ const SocialLogin = () => {
           },
         });
       } else {
-        // Show success message if login succeeds
         Swal.fire({
           title: "Success!",
           text: "You are now logged in. Redirecting...",
           icon: "success",
-          timer: 2000, // Auto-close after 2 seconds
+          timer: 2000, 
           confirmButtonColor: "#FF3811",
           customClass: {
             confirmButton: "bg-[#FF3811] text-white py-2 px-4 rounded-full",
           },
         }).then(() => {
-          // Redirect to the desired page after showing the success message
           window.location.href = path ? path : "/";
         });
       }
     } catch (error) {
-      setLoading(false); // Stop loading in case of an exception
-      // Catch and show error message if an exception occurs
+      setLoading(false); 
       console.error("Error during social login:", error);
     }
   };
@@ -62,7 +58,6 @@ const SocialLogin = () => {
       {loading ? (
         <div className="flex items-center justify-center">
           <p className="text-lg font-semibold">Logging in...</p>
-          {/* Optional: Add a spinner for visual feedback */}
         </div>
       ) : (
         <div className="flex justify-center space-x-4">

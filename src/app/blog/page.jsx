@@ -17,20 +17,20 @@ export async function generateMetadata() {
       "automotive industry trends"
     ],
     icons: {
-      icon: "/favicon.ico", // Path to favicon in the public directory
+      icon: "/favicon.ico", 
     },
     openGraph: {
       title: "Blog - Car Doctor | Expert Insights on Car Repair and Maintenance",
       description: "Stay updated with the latest tips and insights on car repair and maintenance from Car Doctor. Improve your vehicle's performance with our expert advice.",
       images: [
         {
-          url: "https://yourwebsite.com/images/blog-header.jpg", // Replace with a relevant image
+          url: "https://yourwebsite.com/images/blog-header.jpg", 
           width: 1200,
           height: 630,
           alt: "Car Doctor Blog Header Image",
         },
       ],
-      url: "https://yourwebsite.com/blog", // Replace with your actual blog URL
+      url: "https://yourwebsite.com/blog", 
       type: "website",
       site_name: "Car Doctor",
     },

@@ -30,7 +30,6 @@ const Services =  () => {
   });
   
 
-  // Handle loading and error states
   if (isLoading) {
     return <LoadingPage />;
   }

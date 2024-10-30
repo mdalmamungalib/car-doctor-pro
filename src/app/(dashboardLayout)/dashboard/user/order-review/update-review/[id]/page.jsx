@@ -16,14 +16,12 @@ export const dynamic = "force-dynamic";
 
 const Page = ({params}) => {
   const router = useRouter();
-  // Use state for loading and rating
+
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(5);
 
   const { data: session } = useSession();
-  
 
-  // Form handling using react-hook-form
   const {
     register,
     handleSubmit,
@@ -49,31 +47,27 @@ const Page = ({params}) => {
   });
   
 
-  // Form submission handler
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
 
-      // Prepare the review data
       const updateReviewData = {
         ...data,
         rating,
       };
       console.log("Review Data:", updateReviewData);
 
-      // Show loading notification
       const loadingSwal = Swal.fire({
         title: "Submitting...",
         text: "Please wait while your review is being Updated.",
         icon: "info",
         allowOutsideClick: false,
         didOpen: () => {
-          Swal.showLoading(); // Show loading spinner
+          Swal.showLoading(); 
         },
       });
 
-      // Submit the review
       const res = await axiosSecure.patch(
         `/dashboard/user/order-review/api/review-update/${params?.id}`,
         updateReviewData
@@ -81,7 +75,6 @@ const Page = ({params}) => {
 
       console.log(res);
 
-      // Success notification
       if (res?.status === 200) {
         router.push("/dashboard/user/order-review");
         Swal.fire({
@@ -98,13 +91,11 @@ const Page = ({params}) => {
           },
         });
 
-        // Optionally reset the form here if needed
         reset();
       }
     } catch (error) {
       console.error("Error submitting review:", error);
 
-      // Error notification
       Swal.fire({
         title: "Error!",
         text: "There was an error submitting your review. Please try again.",
@@ -119,12 +110,11 @@ const Page = ({params}) => {
         },
       });
     } finally {
-      setLoading(false); // Hide loading state
-      Swal.close(); // Close the loading dialog
+      setLoading(false); 
+      Swal.close(); 
     }
   };
 
-  // Custom star rating SVG and styles
   const StarDrawing = (
     <path
       fillRule="evenodd"
@@ -145,16 +135,13 @@ const Page = ({params}) => {
 
   return (
     <div className="">
-      {/* Header Image Component */}
       <DashboardHeadImage title={"Update Review"} subTile={"Update Review"}/>
 
-      {/* Review Form Container */}
-      <div className="h-full max-w-full bg-[#F3F3F3] rounded-[10px] lg:p-[97px] md:p-[97px] p-[10%] my-[130px]">
+      <div className="h-full max-w-full bg-[#F3F3F3] rounded-[10px] lg:p-[97px] md:p-[97px] p-[10%] mt-[130px]">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-4 mt-[50px]"
         >
-          {/* Position Input Field */}
           <div className="space-y-1">
             <input
             defaultValue={review?.position}

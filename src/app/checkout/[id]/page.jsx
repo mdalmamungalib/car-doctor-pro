@@ -1,225 +1,64 @@
-"use client";
-import HeadImage from "components/HomePage/HeadImage";
-import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
-import LoadingPage from "components/LoadingPage/LoadingPage";
-import Swal from "sweetalert2";
-import { useRouter } from "next/navigation";
-import axiosSecure from "lib/axios";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import React from 'react';
+import Checkout from './Checkout';
+
 export const dynamic = "force-dynamic";
 
-const Page = ({ params }) => {
-  const router = useRouter();
-  const { data: session } = useSession();
-  const [loading, setLoading] = useState(false); 
+export async function generateMetadata({ params }) {
+ 
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/api/${params?.id}`);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-
-  const {
-    data: service = {},
-    refetch,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["service", params?.id],
-    queryFn: async () => {
-      const response = await axiosSecure.get(
-        `/services/api/${params?.id}`
-      );
-      return response.data;
-    },
-    enabled: !!session?.user?.email,
-  });
-
-  // Handle form submission
-  const onSubmit = async (formData) => {
-    setLoading(true); // Start loading on submit
-    const newBooking = {
-      name: `${formData?.firstName} ${formData?.lastName}`,
-      email: formData?.email,
-      phone: formData?.phone,
-      message: formData?.message,
-      service: service?.title,
-      price: service?.price,
-      image: service?.img,
-      bookingData: new Date(),
-      status: "Pending"
-    };
-
-    try {
-      const res = await axiosSecure.post(
-        "/checkout/api/new-booking",
-        newBooking
-      );
-
-      if (res?.status === 201) {
-        reset();
-        router.push("/");
-
-        Swal.fire({
-          title: "Booking Added!",
-          text: "Your booking has been successfully added. Would you like to check all bookings or continue shopping?",
-          icon: "success",
-          showCancelButton: true,
-          confirmButtonText: "Check All Bookings",
-          cancelButtonText: "Continue Shopping",
-          confirmButtonColor: "#FF3811",
-          cancelButtonColor: "#444444",
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: "bg-[#FF3811] text-white py-2 px-4 rounded-full mx-2",
-            cancelButton: "bg-[#444444] text-white py-2 px-4 rounded-full mx-2",
-            popup: "rounded-xl shadow-lg",
-            title: "text-xl font-bold text-[#444444]",
-            htmlContainer: "text-sm text-[#555555]",
-          },
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "/dashboard/user/my-booking";
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            window.location.href = "/services";
-          }
-        });
-      }
-    } catch (err) {
-      // Handle error (optional)
-      console.error(err);
-    } finally {
-      setLoading(false); // Stop loading after submit
-    }
-  };
-
-  // Show loading page while data is being fetched
-  if (isLoading) {
-    return <LoadingPage />;
+  if (!response.ok) {
+    throw new Error('Failed to fetch checkout data');
   }
+  
+  const data = await response.json();
+  
+  const items = data.title || [];
+  const totalPrice = data.price || 0; 
+  
+  return {
+    title: `Checkout - ${items}`,
+    description: `Complete your purchase of ${items} for a total of $${totalPrice}. Enjoy a smooth and secure checkout experience at Your Store Name.`,
+    keywords: [
+      "checkout",
+      "shopping cart",
+      "online payment",
+      "purchase",
+      "secure checkout",
+      "Your Store Name",
+    ],
+    icons: {
+      icon: "/favicon.ico",
+    },
+    openGraph: {
+      title: `Checkout - ${items}`,
+      description: `Purchase ${items} for $${totalPrice}. Secure checkout at Your Store Name.`,
+      images: [
+        {
+          url: `https://yourwebsite.com/images/checkout-image.jpg`, 
+          width: 1200,
+          height: 630,
+          alt: `Checkout Image`,
+        },
+      ],
+      url: `https://yourwebsite.com/checkout/${params?.id}`, 
+      type: "website",
+      site_name: "Your Store Name",
+    },
+  };
+}
 
-  // Show error message if service data fails to load
-  if (error) return <p>{error}</p>;
 
+const page = async({params}) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/api/${params?.id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch service data');
+  }
+  const data = await response.json();
+  
   return (
-    <div className="">
-      <HeadImage title="Check Out" subtitle="Checkout" />
-      <div className="h-full max-w-full bg-[#F3F3F3] rounded-[10px] lg:p-[97px] md:p-[97px] p-[10%] my-[130px]">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 mt-[50px]"
-        >
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {/* First Name Input */}
-            <div className="space-y-1">
-              <input
-                {...register("firstName", {
-                  required: "First name is required",
-                })}
-                defaultValue={session?.user?.name?.split(" ")[0]} // Extract first name
-                placeholder="First Name"
-                className="w-full bg-white border border-gray-300 py-2 h-[60px] px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-              />
-              {errors.firstName && (
-                <p className="text-red-500">
-                  {errors.firstName.message}
-                </p>
-              )}
-            </div>
-
-            {/* Last Name Input */}
-            <div className="space-y-1">
-              <input
-                {...register("lastName", {
-                  required: "Last name is required",
-                })}
-                defaultValue={session?.user?.name
-                  ?.split(" ")
-                  .slice(1)
-                  .join(" ")} // Extract last name
-                placeholder="Last Name"
-                className="w-full bg-white border border-gray-300 py-2 h-[60px] px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-              />
-              {errors.lastName && (
-                <p className="text-red-500">
-                  {errors.lastName.message}
-                </p>
-              )}
-            </div>
-
-            {/* Phone Number Input */}
-            <div className="space-y-1">
-              <input
-                {...register("phone", {
-                  required: "Phone number is required",
-                  pattern: {
-                    value: /^[0-9]{10,15}$/, // Adjust regex for min/max length
-                    message: "Please enter a valid phone number",
-                  },
-                })}
-                type="tel" // Use 'tel' for phone numbers
-                placeholder="Your Phone"
-                className="w-full h-[60px] bg-white border border-gray-300 py-2 px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-              />
-              {errors.phoneNumber && (
-                <p className="text-red-500">
-                  {errors.phoneNumber.message}
-                </p>
-              )}
-            </div>
-
-            {/* Email Input */}
-            <div className="space-y-1">
-              <input
-                {...register("email", {
-                  required: "Email is required",
-                })}
-                defaultValue={session?.user?.email} // Extract email
-                type="text"
-                placeholder="Your Email"
-                className="w-full bg-white border border-gray-300 py-2 h-[60px] px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-              />
-              {errors.email && (
-                <p className="text-red-500">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Message Input */}
-          <div className="space-y-1">
-            <textarea
-              {...register("message", {
-                required: "Message is required",
-              })}
-              placeholder="Your Message"
-              className="w-full bg-white border border-gray-300 py-6 h-[250px] px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-            />
-            {errors.message && (
-              <p className="text-red-500">
-                {errors.message.message}
-              </p>
-            )}
-          </div>
-
-          {/* Submit Button */}
-          <input
-            type="submit"
-            className={`w-full py-3 mt-4 rounded-lg text-white font-medium transition-transform duration-300 ease-in-out cursor-pointer ${
-              loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#FF3811] hover:scale-105"
-            }`}
-            value={loading ? "Processing..." : "Order Confirm"}
-            disabled={loading}
-          />
-        </form>
-      </div>
-    </div>
+    <Checkout data={data}/>
   );
 };
 
-export default Page;
+export default page;

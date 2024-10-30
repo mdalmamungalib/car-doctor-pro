@@ -6,11 +6,10 @@ import { usePathname } from "next/navigation";
 export const dynamic = "force-dynamic";
 
 const HomeLayout = ({ children }) => {
-  const pathname = usePathname(); // Get the current pathname
+  const pathname = usePathname(); 
 
-  // Define routes where you don't want to show the Navbar and Footer
   const hiddenRoutes = ["/404", "/not-found", "/login", "/signup"];
-  const isHidden = hiddenRoutes.includes(pathname); // Check if the current path is in hiddenRoutes
+  const isHidden = hiddenRoutes.includes(pathname); 
 
   return (
     <>

@@ -37,7 +37,6 @@ const ContactPage = () => {
     }
 
     try {
-      // Handle form submission logic here, like sending an API request
       Swal.fire({
         title: "Message Sent!",
         text: "Thank you for reaching out. We will get back to you soon.",
@@ -45,7 +44,6 @@ const ContactPage = () => {
         confirmButtonColor: "#FF3811",
       });
 
-      // Clear form
       setFormData({
         name: "",
         email: "",

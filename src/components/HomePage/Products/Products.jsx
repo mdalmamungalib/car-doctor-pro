@@ -9,7 +9,7 @@ import HeadLayout from "components/shared/HeadLayout";
 export const dynamic = "force-dynamic";
 
 const Products = () => {
-  // Fetch products using React Query
+  
   const {
     data: products = [],
     isLoading,
@@ -26,7 +26,6 @@ const Products = () => {
   });
   
 
-  // Handle loading and error states
   if (isLoading) {
     return <LoadingPage />;
   }

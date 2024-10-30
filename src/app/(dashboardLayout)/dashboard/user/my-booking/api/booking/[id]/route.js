@@ -8,12 +8,10 @@ export const DELETE = async (request, { params }) => {
   const bookingCollection = db.collection("bookings");
 
   try {
-    // Ensure the id is converted to ObjectId
     const res = await bookingCollection.deleteOne({
       _id: new ObjectId(params.id),
     });
 
-    // Check if the deletion was successful
     if (res.deletedCount === 1) {
       return new NextResponse(
         JSON.stringify({

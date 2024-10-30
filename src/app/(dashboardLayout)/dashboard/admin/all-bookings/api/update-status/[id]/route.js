@@ -1,11 +1,12 @@
 import { connectDB } from "lib/connectDB";
 import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 export const PATCH = async (request, { params }) => {
-  const { id } = params; // Extract the id from params
-  const { status } = await request.json(); // Extract status from request body
+  const { id } = params; 
+  const { status } = await request.json(); 
 
   try {
     const db = await connectDB();
@@ -15,18 +16,18 @@ export const PATCH = async (request, { params }) => {
     );
 
     if (result.modifiedCount === 1) {
-      return new Response(
+      return new NextResponse(
         JSON.stringify({ message: "Booking status updated successfully" }),
         { status: 200 }
       );
     } else {
-      return new Response(
+      return new NextResponse(
         JSON.stringify({ message: "Booking not found or status unchanged" }),
         { status: 404 }
       );
     }
   } catch (error) {
-    return new Response(
+    return new NextResponse(
       JSON.stringify({ message: "Error updating booking status", error }),
       { status: 500 }
     );

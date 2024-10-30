@@ -1,4 +1,5 @@
 import { connectDB } from "lib/connectDB";
+import { NextResponse } from 'next/server';
 
 export const dynamic = "force-dynamic";
 
@@ -6,18 +7,14 @@ export const POST = async (request) => {
     try {
         const service = await request.json();
 
-        // Input Validation
         const { title, description, price, img } = service;
         if (!title || !description || !price || !img) {
-            return new Response(
-                JSON.stringify({
-                    status: 400,
-                    message: "All fields are required.",
-                }),
+            return NextResponse.json(
                 {
                     status: 400,
-                    headers: { "Content-Type": "application/json" },
-                }
+                    message: "All fields are required.",
+                },
+                { status: 400 }
             );
         }
 
@@ -26,29 +23,23 @@ export const POST = async (request) => {
 
         const newService = await servicesCollection.insertOne(service);
 
-        return new Response(
-            JSON.stringify({
+        return NextResponse.json(
+            {
                 status: 201,
                 message: "Service created successfully",
                 serviceId: newService.insertedId,
-            }),
-            {
-                status: 201,
-                headers: { "Content-Type": "application/json" },
-            }
+            },
+            { status: 201 }
         );
     } catch (error) {
         console.error("Error creating service:", error);
 
-        return new Response(
-            JSON.stringify({
-                status: 500,
-                message: "Internal Server Error. Please try again later.",
-            }),
+        return NextResponse.json(
             {
                 status: 500,
-                headers: { "Content-Type": "application/json" },
-            }
+                message: "Internal Server Error. Please try again later.",
+            },
+            { status: 500 }
         );
     }
 };

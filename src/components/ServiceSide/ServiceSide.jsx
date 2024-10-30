@@ -4,7 +4,7 @@ import LoadingPage from "components/LoadingPage/LoadingPage";
 import axiosSecure from "lib/axios";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import usePathname
+import { usePathname } from "next/navigation"; 
 import React from "react";
 import { GoArrowRight } from "react-icons/go";
 import { HiOutlineDocumentChartBar } from "react-icons/hi2";
@@ -12,9 +12,8 @@ import { HiOutlineDocumentChartBar } from "react-icons/hi2";
 export const dynamic = "force-dynamic";
 
 const ServiceSide = ({ service}) => {
-  const currentPath = usePathname(); // Get the current pathname
+  const currentPath = usePathname(); 
   
-  // Fetch services using React Query
   const {
     data: services = [],
     isLoading,
@@ -31,7 +30,6 @@ const ServiceSide = ({ service}) => {
   });
 
 
-  // Handle loading and error states
   if (isLoading) {
     return <LoadingPage />;
   }

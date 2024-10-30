@@ -1,11 +1,11 @@
 import React from 'react';
 import SingleService from './SingleService';
 
-export async function generateMetadata({ params }) {
-  // Await params to ensure it's available
-  const { id } = await params; // Make sure to await params
+export const dynamic = "force-dynamic";
 
-  // Fetch data from API
+export async function generateMetadata({ params }) {
+  const { id } = await params; 
+
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/api/${id}`);
   if (!response.ok) {
     throw new Error('Failed to fetch service data');
@@ -34,13 +34,13 @@ export async function generateMetadata({ params }) {
       description: serviceDescription,
       images: [
         {
-          url: `https://yourwebsite.com/images/${serviceName.toLowerCase()}-service.jpg`, // Ensure the URL points to the correct image
+          url: `https://yourwebsite.com/images/${serviceName.toLowerCase()}-service.jpg`, 
           width: 1200,
           height: 630,
           alt: `${serviceName} Service Image`,
         },
       ],
-      url: `https://yourwebsite.com/services/${id}`, // Adjusted to use id directly
+      url: `https://yourwebsite.com/services/${id}`, 
       type: "website",
       site_name: "Car Doctor",
     },
@@ -54,7 +54,7 @@ const page = async ({ params }) => {
   }
   const data = await response.json();
   return (
-    <SingleService params={params} data={data}/>
+    <SingleService  data={data}/>
   );
 };
 

@@ -1,11 +1,12 @@
 import { connectDB } from "lib/connectDB";
 import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 export const GET = async (request, { params }) => {
 
-  const { id } = params; // Get id from params
+  const { id } = params; 
   const db = await connectDB();
 
   try {
@@ -14,7 +15,7 @@ export const GET = async (request, { params }) => {
       .findOne({ _id: new ObjectId(id) });
 
     if (!service) {
-      return new Response(
+      return new NextResponse(
         JSON.stringify({ message: "Service not found" }),
         {
           status: 404,
@@ -25,7 +26,7 @@ export const GET = async (request, { params }) => {
       );
     }
 
-    return new Response(JSON.stringify(service), {
+    return new NextResponse(JSON.stringify(service), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +34,7 @@ export const GET = async (request, { params }) => {
     });
   } catch (error) {
     console.error("Error fetching service:", error);
-    return new Response(
+    return new NextResponse(
       JSON.stringify({ message: "Internal Server Error" }),
       {
         status: 500,

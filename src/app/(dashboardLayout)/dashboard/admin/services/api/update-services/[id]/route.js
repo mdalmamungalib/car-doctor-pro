@@ -1,5 +1,6 @@
 import { connectDB } from "lib/connectDB";
 import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export const PATCH = async (request, { params }) => {
@@ -15,7 +16,7 @@ export const PATCH = async (request, { params }) => {
     );
 
     if (result.matchedCount === 0) {
-      return new Response(
+      return new NextResponse(
         JSON.stringify({ message: "Service not found" }),
         {
           status: 404,
@@ -23,7 +24,7 @@ export const PATCH = async (request, { params }) => {
       );
     }
 
-    return new Response(
+    return new NextResponse(
       JSON.stringify({ message: "Service updated successfully" }),
       {
         status: 200,
@@ -31,7 +32,7 @@ export const PATCH = async (request, { params }) => {
     );
   } catch (error) {
     console.error("Error updating service:", error);
-    return new Response(
+    return new NextResponse(
       JSON.stringify({ message: "Error updating service" }),
       {
         status: 500,
