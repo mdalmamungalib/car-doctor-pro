@@ -83,7 +83,7 @@ const Products = () => {
   };
 
   return (
-    <div className="p-4 mb-[80px]">
+    <div className="p-4 ">
       <DashboardHeadImage
         title={"Manage All Products"}
         subTile={"All Product Details"}

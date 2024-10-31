@@ -83,7 +83,7 @@ const Team = () => {
   };
 
   return (
-    <div className="p-4 mb-[80px]">
+    <div className="p-4 ">
       <DashboardHeadImage
         title={"Manage All Team Member"}
         subTile={"All Team Member Details"}

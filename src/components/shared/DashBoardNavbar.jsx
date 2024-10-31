@@ -29,16 +29,14 @@ const DashBoardNavbar = () => {
       const response = await axiosSecure.get(
         `/dashboard/my-booking/api/${session?.user?.email}`
       );
-      return response.data.myBookings;
+      return response.data;
     },
     enabled: !!session?.user?.email,
   });
-  refetch();
 
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-       await refetch()
         const res = await axiosSecure.get(
           "/checkout/api/all-bookings"
         );
@@ -47,9 +45,10 @@ const DashBoardNavbar = () => {
         console.error("Error fetching bookings:", error);
       }
     };
-    refetch();
     fetchBooking();
-  }, [refetch]);
+  }, []);
+  
+ 
 
   const userNavItem = [
     { title: "My Booking", path: "/dashboard/user/my-booking" },

@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
 const About = () => {
   
   return (
-    <div className="min-h-screen text-gray-800 about-page-container bg-gray-50 mb-[130px]">
+    <div className="min-h-screen text-gray-800 about-page-container bg-gray-50 ">
       {/* Hero Section */}
       <HeadImage title={"About"} subtitle={"Our About Area"} />
 

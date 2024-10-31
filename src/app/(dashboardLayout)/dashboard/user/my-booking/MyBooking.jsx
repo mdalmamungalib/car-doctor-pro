@@ -150,7 +150,7 @@ const MyBooking = () => {
   }
 
   return (
-    <div className="mb-[130px]">
+    <div className="">
       <DashboardHeadImage
         title={"Manage All Bookings"}
         subTile={"All Booking Details"}

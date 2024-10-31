@@ -77,7 +77,7 @@ const blogPosts = [
 
 const BlogPage = () => {
   return (
-    <div className="min-h-screen text-gray-800 blog-page-container mb-[130px]">
+    <div className="min-h-screen text-gray-800 blog-page-container ">
       {/* Hero Section */}
       <HeadImage title={"Blog"} subtitle={"Our Blog Area"} />
 

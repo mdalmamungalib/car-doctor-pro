@@ -153,7 +153,7 @@ const ServiceSide = ({ service}) => {
           </h3>
 
           {/* Button positioned to overlap the card */}
-          <button className="absolute left-1/2 bottom-[-25px] transform -translate-x-1/2 button whitespace-nowrap">
+          <button className="absolute left-1/2 bottom-[-25px] transform -translate-x-1/2 button whitespace-nowrap bg-[#FF3811] w-[170px] h-[56px] rounded-[5px] text-[18px] font-semibold text-white">
             Get A Quote
           </button>
         </div>

@@ -50,7 +50,7 @@ const SingleService = ({ data: singleService }) => {
   ];
 
   return (
-    <div className="mb-[130px]">
+    <div className="">
       <HeadImage
         title={"Service Details"}
         subtitle={singleService?.title}

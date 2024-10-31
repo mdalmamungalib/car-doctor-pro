@@ -117,7 +117,7 @@ const AllBooking = () => {
         title={"Manage All Orders"}
         subTile={"All Orders Details"}
       />
-      <div className="w-full mt-8 overflow-x-auto mb-[130px]">
+      <div className="w-full mt-8 overflow-x-auto ">
         <table className="min-w-full border-collapse table-auto">
           <thead>
             <tr className="text-sm font-semibold text-left text-gray-700 bg-gray-100">

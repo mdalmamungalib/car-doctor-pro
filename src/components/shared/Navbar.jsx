@@ -17,6 +17,7 @@ const Navbar = () => {
   const pathname = usePathname(); 
 
   const { data: session, status } = useSession();
+  
 
   const {
     data: bookings = [],
@@ -30,15 +31,15 @@ const Navbar = () => {
       const response = await axiosSecure.get(
         `/dashboard/user/my-booking/api/${session?.user?.email}`
       );
-      return response.data.myBookings;
+      return response.data;
     },
     enabled: !!session?.user?.email,
   });
+  
 
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-       await refetch();
         const res = await axiosSecure.get(
           "/checkout/api/all-bookings"
         );
@@ -47,13 +48,15 @@ const Navbar = () => {
         console.error("Error fetching bookings:", error);
       }
     };
-    refetch();
     fetchBooking();
   }, [refetch]);
+  
+  if(refetch) {
+    refetch();
+  }
 
  
   const handleClick = () => {
-    refetch();
     router.push(
       session.user.role === "admin"
         ? "/dashboard/admin/services"
@@ -78,15 +81,12 @@ const Navbar = () => {
   ];
 
   if (pathname.includes("dashboard")) {
-    refetch();
     return <DashBoardNavbar />;
   }
 
   if (isLoading) {
-    refetch();
-  } else {
-    refetch();
-  }
+    <h1>Loading..</h1>
+  } 
 
   return (
     <div className="pt-16 max-w-[1140px] mx-auto bg-white navbar">

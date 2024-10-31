@@ -60,7 +60,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="mb-[130px]">
+    <div className="">
       <HeadImage title={"Contact"} subtitle={"Our Contact Area"} />
       <div className="container px-4 py-12 mx-auto">
         {/* Contact Details and Form */}

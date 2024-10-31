@@ -84,7 +84,7 @@ const OrderReview = () => {
   }
 
   return (
-    <div className="mb-[130px]">
+    <div className="">
       <DashboardHeadImage
         title={"Manage All Review"}
         subTile={"Review Details"}
