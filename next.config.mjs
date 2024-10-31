@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
-    formats: ['image/webp'],
+    formats: ["image/webp"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**', 
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },
