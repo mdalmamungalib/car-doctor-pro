@@ -1,37 +1,82 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# **Car Doctor Pro**
 
-## Getting Started
+**Car Doctor Pro** is a modern web application built with Next.js, designed for managing car repair and maintenance services. This app integrates with various libraries and APIs to provide an optimized user experience with responsive UI, seamless navigation, and rich functionalities.
 
-First, run the development server:
+## **Table of Contents**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* Features  
+* Tech Stack  
+* Setup  
+* Scripts  
+* Environment Variables  
+* License
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## **Features**
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+* **User Authentication**: Login and registration with secure authentication using `next-auth` and JWT.  
+* **Car Service Management**: Manage and display car maintenance services.  
+* **Dynamic Ratings**: Use `@smastrom/react-rating` for service reviews.  
+* **Responsive UI**: Responsive design powered by Tailwind CSS and DaisyUI.  
+* **Interactive Animations**: Leveraging `framer-motion` for engaging animations.  
+* **PDF Report Generation**: Export service reports as PDFs with `jspdf` and `jspdf-autotable`.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## **Tech Stack**
 
-## Learn More
+* **Frontend**: Next.js, React, Tailwind CSS, DaisyUI  
+* **Backend**: Node.js, Next.js API routes  
+* **Database**: MongoDB with `mongodb-client-encryption`  
+* **Auth**: `next-auth` for secure user authentication  
+* **Additional Libraries**: `axios`, `aos` (for animations), `bcrypt`, `date-fns`, `react-hook-form`, `react-icons`, `sharp`, and more.
 
-To learn more about Next.js, take a look at the following resources:
+## **Setup**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Clone the repository:  
+bash  
+Copy code  
+`git clone https://github.com/mdalmamungalib/car-doctor-pro.git`  
+`cd car-doctor-pro`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. 
 
-## Deploy on Vercel
+Install dependencies:  
+bash  
+Copy code  
+`npm install`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-"# car-doctor-pro" 
+Set up environment variables:  
+Create a `.env.local` file in the root directory and add the following variables:  
+env  
+Copy code  
+`NEXTAUTH_URL=http://localhost:3000`  
+`DATABASE_URL=http://localhost:3000`  
+`JWT_SECRET=http://localhost:3000`
+
+3. 
+
+Start the development server:  
+bash  
+Copy code  
+`npm run dev`
+
+4. 
+
+## **Scripts**
+
+* **`npm run dev`**: Starts the development server.  
+* **`npm run build`**: Creates an optimized production build.  
+* **`npm run start`**: Runs the production server.  
+* **`npm run lint`**: Lints the codebase.  
+* **`npm run test`**: Runs tests.
+
+## **Environment Variables**
+
+* **NEXTAUTH\_URL**: Base URL for the NextAuth authentication.  
+* **DATABASE\_URL**: MongoDB connection string.  
+* **JWT\_SECRET**: Secret for signing JWT tokens.
+
+## **License**
+
+This project is licensed under the MIT License.
+
