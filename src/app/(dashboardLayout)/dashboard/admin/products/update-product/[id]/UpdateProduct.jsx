@@ -83,7 +83,7 @@ const UpdateProduct = ({ id }) => {
 
         try {
           const res = await axiosSecure.patch(
-            `/dashboard/admin/products/api/product-id/${params?.id}`,
+            `/dashboard/admin/products/api/product-id/${id}`,
             updateProduct
           );
           

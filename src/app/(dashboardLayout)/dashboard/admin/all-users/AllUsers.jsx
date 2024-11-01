@@ -132,7 +132,9 @@ const AllUsers = () => {
     });
   };
 
-  if (isLoading) return <LoadingPage />;
+  if (isLoading) {
+    return <LoadingPage />;
+  };
 
   if (isError) return <div>Error: {error.message}</div>;
 

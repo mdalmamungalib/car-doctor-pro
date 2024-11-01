@@ -100,7 +100,7 @@ const UpdateService = ({ id }) => {
       };
 
       const response = await axiosSecure.patch(
-        `/dashboard/admin/services/api/update-services/${params.id}`,
+        `/dashboard/admin/services/api/update-services/${id}`,
         updateService
       );
 
