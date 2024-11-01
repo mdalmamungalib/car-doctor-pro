@@ -18,7 +18,6 @@ const MyBooking = () => {
   const { data: session, status } = useSession();
   const [isDeleting, setIsDeleting] = useState(false);
   
-  console.log("User Email:", session?.user?.email);
   
   const {
     data: bookings = [],

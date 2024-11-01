@@ -28,9 +28,6 @@ const Products = () => {
       return response.data;
     },
   });
-
-  console.log(products);
-
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -51,7 +48,6 @@ const Products = () => {
           const res = await axiosSecure.delete(
             `/dashboard/admin/products/api/product-id/${id}`
           );
-          console.log(res);
 
           if (res.status === 200 || res.status === 204) {
             Swal.fire({

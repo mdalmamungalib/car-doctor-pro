@@ -7,7 +7,7 @@ export const GET = async () => {
     const db = await connectDB();
     const servicesCollection = db.collection("services");
 
-    const services = await servicesCollection.find().toArray();
+    const services = await servicesCollection.find({}).toArray();
 
     return new NextResponse(JSON.stringify({ services }), {
       status: 200,

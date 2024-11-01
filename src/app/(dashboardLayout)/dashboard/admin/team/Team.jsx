@@ -49,7 +49,6 @@ const Team = () => {
           const res = await axiosSecure.delete(
             `/dashboard/admin/team/api/team-id/${id}`
           );
-          console.log(res);
 
           if (res.status === 200 || res.status === 204) {
             Swal.fire({

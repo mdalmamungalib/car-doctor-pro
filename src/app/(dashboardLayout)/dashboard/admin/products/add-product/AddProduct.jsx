@@ -58,7 +58,6 @@ const AddProduct = () => {
           img: imageUrl,
         };
 
-        console.log(newProduct);
 
         try {
           const res = await axiosSecure.post(

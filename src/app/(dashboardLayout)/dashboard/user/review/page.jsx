@@ -18,7 +18,6 @@ const Page = () => {
   const [rating, setRating] = useState(5);
 
   const { data: session } = useSession();
-  console.log(session);
 
   const {
     register,
@@ -38,8 +37,6 @@ const Page = () => {
         ...data,
         rating,
       };
-      console.log("Review Data:", reviewData);
-
       const loadingSwal = Swal.fire({
         title: "Submitting...",
         text: "Please wait while your review is being submitted.",
@@ -54,8 +51,6 @@ const Page = () => {
         "/dashboard/user/review/api/post-review",
         reviewData
       );
-
-      console.log(res);
 
 
       if (res?.status === 201) {

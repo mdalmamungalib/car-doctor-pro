@@ -6,7 +6,6 @@ export const dynamic = "force-dynamic";
 export const POST = async (request) => {
   try {
     const newUser = await request.json(); 
-    console.log(newUser)
     const db = await connectDB();
     const userCollection = db.collection("users");
 

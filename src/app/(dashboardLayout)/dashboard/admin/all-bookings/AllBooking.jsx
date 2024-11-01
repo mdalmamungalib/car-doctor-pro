@@ -55,7 +55,6 @@ const AllBooking = () => {
 
       if (response.status === 200) {
         refetch();
-        console.log("Status updated successfully");
         
       } else {
         console.error("Failed to update status");

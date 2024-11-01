@@ -9,9 +9,12 @@ import { RxCross2 } from "react-icons/rx";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import Swal from "sweetalert2";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";
+
 export const dynamic = "force-dynamic";
 
-const Services = () => {
+const Service = () => {
+  
+  
   const {
     data: services = [],
     refetch,
@@ -157,4 +160,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default Service;

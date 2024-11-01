@@ -56,7 +56,6 @@ const Page = ({params}) => {
         ...data,
         rating,
       };
-      console.log("Review Data:", updateReviewData);
 
       const loadingSwal = Swal.fire({
         title: "Submitting...",
@@ -73,7 +72,6 @@ const Page = ({params}) => {
         updateReviewData
       );
 
-      console.log(res);
 
       if (res?.status === 200) {
         router.push("/dashboard/user/order-review");
