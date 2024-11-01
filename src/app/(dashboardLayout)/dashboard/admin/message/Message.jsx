@@ -12,30 +12,27 @@ import DashboardHeadImage from "components/shared/DashboardHeadImage";
 
 export const dynamic = "force-dynamic";
 
-const Service = () => {
-  
-  
+const Message = () => {
   const {
-    data: services = [],
+    data: massages = [],
     refetch,
     isLoading,
     isError,
     error,
   } = useQuery({
-    queryKey: ["services"],
+    queryKey: ["massages"],
     queryFn: async () => {
       const response = await axiosSecure.get(
-        `/services/api/get-all`
+        `/dashboard/admin/message/api/getmessage`
       );
-      return response.data.services;
+      return response.data;
     },
   });
-
   if (isLoading) {
     return <LoadingPage />;
   }
 
-  const handleDeleteService = async (id) => {
+  const handleDeleteMessage = async (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won’t be able to revert this!",
@@ -49,14 +46,13 @@ const Service = () => {
       if (result.isConfirmed) {
         try {
           const res = await axiosSecure.delete(
-            `/dashboard/admin/services/api/delete-service/${id}`
+            `/dashboard/admin/message/api/messageid/${id}`
           );
 
           if (res.status === 200 || res.status === 204) {
-
             Swal.fire({
               title: "Deleted!",
-              text: "Service has been deleted.",
+              text: "Message has been deleted.",
               icon: "success",
               confirmButtonColor: "#3085d6",
             });
@@ -64,15 +60,16 @@ const Service = () => {
           } else {
             Swal.fire({
               title: "Error!",
-              text: "Failed to delete the service.",
+              text: "Failed to delete the message.",
               icon: "error",
               confirmButtonColor: "#3085d6",
             });
           }
         } catch (error) {
+          console.error("Error deleting message:", error);
           Swal.fire({
             title: "Error!",
-            text: "An error occurred while deleting the service.",
+            text: "An error occurred while deleting the message.",
             icon: "error",
             confirmButtonColor: "#3085d6",
           });
@@ -84,36 +81,26 @@ const Service = () => {
   return (
     <div className="p-4 ">
       <DashboardHeadImage
-        title={"Manage All Services"}
-        subTile={"All Services Details"}
+        title={"Manage All Messages"}
+        subTile={"All Messages Details"}
       />
-      
-      <div className="flex justify-end mt-4">
-        <Link href="/dashboard/admin/add-service">
-          <button className="flex items-center gap-2 bg-[#FF3811] text-white px-4 py-2 mt-10 rounded-full hover:bg-[#e63610] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]">
-            <IoMdAddCircleOutline className="w-6 h-6" />
-            <span>Add New Service</span>
-          </button>
-        </Link>
-      </div>
       <div className="w-full mt-8 overflow-x-auto">
         <table className="min-w-full border-collapse table-auto">
           <thead>
             <tr className="text-sm font-semibold text-left text-gray-700 bg-gray-100">
               <th className="p-3">Delete</th>
-              <th className="p-3">Image</th>
               <th className="p-3">Name</th>
-              <th className="p-3">Price</th>
-              <th className="p-3">Edit</th>
+              <th className="p-3">Email</th>
+              <th className="p-3">Message</th>
             </tr>
           </thead>
           <tbody>
-            {services.map((service, index) => (
+            {massages.map((message, index) => (
               <tr key={index} className="border-b border-gray-200">
                 <td className="p-3">
                   <button
                     onClick={() =>
-                      handleDeleteService(service?._id)
+                      handleDeleteMessage(message?._id)
                     }
                     className="bg-[#444444] hover:bg-[#FF3811] rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF3811]"
                     aria-label="Close"
@@ -121,43 +108,48 @@ const Service = () => {
                     <RxCross2 className="w-6 h-6 text-white" />
                   </button>
                 </td>
-                <td className="p-3">
-                  <Image
-                    src={service?.img}
-                    alt="User Image"
-                    width={150}
-                    height={150}
-                    className="rounded-lg max-w-[150px] h-[100px]"
-                  />
-                </td>
+
                 <td className="p-3">
                   <h3 className="text-sm sm:text-lg font-semibold text-[#444444]">
-                    {service?.title}
+                    {message?.name}
                   </h3>
                 </td>
                 <td className="p-3">
                   <h3 className="text-sm sm:text-lg font-semibold text-[#444444]">
-                    ${service?.price}
+                    {message?.email}
                   </h3>
                 </td>
                 <td className="p-3">
-                  <div className="text-sm sm:text-lg font-semibold text-[#444444]">
-                    <Link
-                      href={`/dashboard/admin/services/update-service/${service?._id}`}
-                    >
-                      <button className="text-2xl button">
-                        <MdEditSquare />
-                      </button>
-                    </Link>
-                  </div>
+                  <p className="text-sm sm:text-base md:text-[16px] lg:text-base font-normal text-[#737373] leading-[25px] md:leading-[28px] lg:leading-[30px] capitalize overflow-auto max-h-[80px] max-w-[560px]">
+                    {message?.text}
+                  </p>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      <style jsx global>{`
+        /* Custom scrollbar styles for WebKit browsers */
+        .overflow-auto::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+      `}</style>
     </div>
   );
 };
 
-export default Service;
+export default Message;

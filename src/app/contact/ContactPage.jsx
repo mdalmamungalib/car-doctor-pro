@@ -5,57 +5,56 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import { useState } from "react";
 import Swal from "sweetalert2";
 import HeadImage from "components/HomePage/HeadImage";
-
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import axiosSecure from "lib/axios";
 
 const ContactPage = () => {
-  
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formData.name || !formData.email || !formData.message) {
-      Swal.fire({
-        title: "Error",
-        text: "Please fill in all fields!",
-        icon: "error",
-        confirmButtonColor: "#FF3811",
-      });
-      return;
-    }
-
+  const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
-      Swal.fire({
-        title: "Message Sent!",
-        text: "Thank you for reaching out. We will get back to you soon.",
-        icon: "success",
-        confirmButtonColor: "#FF3811",
-      });
+      const res = await axiosSecure.post(
+        `/contact/api/postdata`,
+        data
+      );
 
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-      });
+      // Show success notification
+      if (res.status === 200) {
+        Swal.fire({
+          title: "Success!",
+          text: "Your message has been sent successfully.",
+          icon: "success",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#FF3811",
+          background: "#f7f7f7",
+          customClass: {
+            title: "text-[#FF3811]",
+            popup: "rounded-lg shadow-lg p-6",
+          },
+        });
+
+        reset();
+      }
     } catch (error) {
+      console.error("Error posting data:", error);
       Swal.fire({
-        title: "Error",
-        text: "Something went wrong. Please try again.",
         icon: "error",
-        confirmButtonColor: "#FF3811",
+        title: "Oops...",
+        text: "Something went wrong. Please try again!",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -126,36 +125,55 @@ const ContactPage = () => {
             <h2 className="mb-4 text-2xl font-semibold text-[#FF3811]">
               Get In Touch
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                className="w-full bg-white border border-gray-300 py-2 px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-                value={formData.name}
-                onChange={handleInputChange}
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                className="w-full bg-white border border-gray-300 py-2 px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-              <textarea
-                name="message"
-                rows="5"
-                placeholder="Your Message"
-                className="w-full bg-white border border-gray-300 py-2 px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
-                value={formData.message}
-                onChange={handleInputChange}
-              ></textarea>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-4"
+            >
+              <div>
+                <input
+                  {...register("name", {
+                    required: "Name is required",
+                  })}
+                  placeholder="Your Name"
+                  className="w-full bg-white border border-gray-300 py-2 px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
+                />
+                {errors.name && (
+                  <p className="text-red-500">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <input
+                  {...register("email", {
+                    required: "Email is required",
+                  })}
+                  type="email"
+                  placeholder="Your Email"
+                  className="w-full bg-white border border-gray-300 py-2 px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
+                />
+                {errors.email && (
+                  <p className="text-red-500">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <textarea
+                  {...register("text", {
+                    required: "Your Message is required",
+                  })}
+                  rows="5"
+                  placeholder="Your Message"
+                  className="w-full bg-white border border-gray-300 py-2 px-4 rounded-lg focus:outline-none focus:border-[#FF3811] focus:ring-1 focus:ring-[#FF3811]"
+                ></textarea>
+              </div>
               <button
                 type="submit"
                 className="bg-[#FF3811] text-white w-full py-3 rounded-md hover:bg-[#E13200] transition duration-300"
+                disabled={isLoading}
               >
-                Send Message
+                {isLoading ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>

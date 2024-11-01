@@ -65,6 +65,7 @@ const DashBoardNavbar = () => {
     },
     { title: "Products", path: "/dashboard/admin/products" },
     { title: "Team", path: "/dashboard/admin/team" },
+    { title: "Messages", path: "/dashboard/admin/message" },
 
     { title: "Home", path: "/" },
   ];
