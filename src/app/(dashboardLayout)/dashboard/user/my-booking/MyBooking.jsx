@@ -17,8 +17,7 @@ export const dynamic = "force-dynamic";
 const MyBooking = () => {
   const { data: session, status } = useSession();
   const [isDeleting, setIsDeleting] = useState(false);
-  
-  
+
   const {
     data: bookings = [],
     refetch,
@@ -144,7 +143,13 @@ const MyBooking = () => {
     );
   }
 
-  if (status === "loading" || isLoading || isDeleting) {
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+  if (status === "loading") {
+    return <LoadingPage />;
+  }
+  if (isDeleting) {
     return <LoadingPage />;
   }
 
