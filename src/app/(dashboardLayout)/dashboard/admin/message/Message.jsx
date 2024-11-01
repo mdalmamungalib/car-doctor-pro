@@ -2,11 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import axiosSecure from "lib/axios";
-import Image from "next/image";
-import Link from "next/link";
-import { MdEditSquare } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { IoMdAddCircleOutline } from "react-icons/io";
 import Swal from "sweetalert2";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";
 
