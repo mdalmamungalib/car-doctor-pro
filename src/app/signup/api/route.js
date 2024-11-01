@@ -103,7 +103,7 @@ Your Company`;
             <div class="content">
               <p>Thank you for registering! You are now part of a worldwide family.</p>
               <p>Explore our services and connect with people around the globe!</p>
-              <a href="http://localhost:3000/services" class="button">Explore Now</a>
+              <a href="https://car-doctor-pro-delta.vercel.app/services" class="button">Explore Now</a>
             </div>
             <div class="footer">
               <p>Best Regards,<br>Your Company</p>

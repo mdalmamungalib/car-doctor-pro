@@ -108,14 +108,14 @@ export const POST = async (request) => {
           
           <!-- CTA Button -->
           <p style="text-align: center;">
-            <a href="http://localhost:3000/dashboard/user/my-booking" class="button" style="color: white; text-decoration: none;">View Booking Details</a>
+            <a href="https://car-doctor-pro-delta.vercel.app/dashboard/user/my-booking" class="button" style="color: white; text-decoration: none;">View Booking Details</a>
           </p>
         </div>
         
         <!-- Email Footer -->
         <div class="footer">
           <p>Best regards, <br> Car Doctor Team</p>
-          <p><a href="http://localhost:3000/">Visit our website</a> | <a href="mailto:miounhgastembc@gmail.com">Contact Support</a></p>
+          <p><a href="https://car-doctor-pro-delta.vercel.app/">Visit our website</a> | <a href="mailto:miounhgastembc@gmail.com">Contact Support</a></p>
         </div>
       </div>
     </body>
