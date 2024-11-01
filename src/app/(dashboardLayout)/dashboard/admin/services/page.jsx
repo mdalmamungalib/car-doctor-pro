@@ -12,7 +12,7 @@ import DashboardHeadImage from "components/shared/DashboardHeadImage";
 
 export const dynamic = "force-dynamic";
 
-const Service = () => {
+const page = () => {
   
   
   const {
@@ -160,4 +160,4 @@ const Service = () => {
   );
 };
 
-export default Service;
+export default page;
