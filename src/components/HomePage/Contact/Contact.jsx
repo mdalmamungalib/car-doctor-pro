@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const Contact = () => {
   const details = [
     {

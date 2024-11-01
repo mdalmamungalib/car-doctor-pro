@@ -1,5 +1,5 @@
 "use client";
-export const dynamic = "force-dynamic";
+
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import axiosSecure from "lib/axios";
+
+export const dynamic = "force-dynamic";
 
 const ContactPage = () => {
   const {
