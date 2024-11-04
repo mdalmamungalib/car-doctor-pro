@@ -20,8 +20,8 @@ export const middleware = async (request) => {
       "/dashboard/admin/team",
     ],
     user: [
-      "/dashboard/user/my-booking",
       "/services",
+      "/dashboard/user/my-booking",
       "/dashboard/user/my-booking",
       "/dashboard/user/order-review",
     ],
@@ -73,6 +73,7 @@ export const middleware = async (request) => {
 
 export const config = {
   matcher: [
+    "/services/:path*",
     "/dashboard/:path*",
     "/dashboard/admin/:path*",
     "/dashboard/user/:path*",

@@ -14,10 +14,9 @@ export const dynamic = "force-dynamic";
 const Navbar = () => {
   const [booking, setBooking] = useState([]);
   const router = useRouter();
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   const { data: session, status } = useSession();
-  
 
   const {
     data: bookings = [],
@@ -35,7 +34,6 @@ const Navbar = () => {
     },
     enabled: !!session?.user?.email,
   });
-  
 
   useEffect(() => {
     const fetchBooking = async () => {
@@ -50,18 +48,17 @@ const Navbar = () => {
     };
     fetchBooking();
   }, [refetch]);
-  
-  if(refetch) {
+
+  if (refetch) {
     refetch();
   }
 
- 
   const handleClick = () => {
     router.push(
       session.user.role === "admin"
         ? "/dashboard/admin/services"
         : "/dashboard/user/my-booking"
-    ); 
+    );
   };
 
   const loginHandler = () => {
@@ -85,8 +82,8 @@ const Navbar = () => {
   }
 
   if (isLoading) {
-    <h1>Loading..</h1>
-  } 
+    <h1>Loading..</h1>;
+  }
 
   return (
     <div className="pt-16 max-w-[1140px] mx-auto bg-white navbar">
@@ -169,23 +166,27 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="gap-5 navbar-end">
-        <div className="relative">
-          {/* Tooltip (optional) */}
-          <div title="View Dashboard">
-            <div
-              onClick={handleClick}
-              className="relative transition-transform duration-300 ease-in-out cursor-pointer hover:scale-105"
-            >
-              {/* Notification badge for bookings */}
-              <p className="absolute -top-2 -right-3 w-5 h-5 flex items-center justify-center bg-[#FF3811] text-white text-xs font-bold rounded-full transition-opacity duration-300 ease-in-out hover:opacity-80">
-                {session?.user?.role === "admin"
-                  ? booking.length
-                  : bookings.length}
-              </p>
-              <BsHandbag className="text-black transition-transform duration-300 ease-in-out w-7 h-7 hover:scale-110 hover:text-[#FF3811]" />
+        {session?.user?.email ? (
+          <div className="relative">
+            {/* Tooltip (optional) */}
+            <div title="View Dashboard">
+              <div
+                onClick={handleClick}
+                className="relative transition-transform duration-300 ease-in-out cursor-pointer hover:scale-105"
+              >
+                {/* Notification badge for bookings */}
+                <p className="absolute -top-2 -right-3 w-5 h-5 flex items-center justify-center bg-[#FF3811] text-white text-xs font-bold rounded-full transition-opacity duration-300 ease-in-out hover:opacity-80">
+                  {session?.user?.role === "admin"
+                    ? booking.length
+                    : bookings.length}
+                </p>
+                <BsHandbag className="text-black transition-transform duration-300 ease-in-out w-7 h-7 hover:scale-110 hover:text-[#FF3811]" />
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          null
+        )}
         <button
           className="btn px-[28px] py-[15px] bg-white 
         border-[#FF3811] text-[#FF3811] hover:bg-[#FF3811] hover:text-white hover:border-[#FF3811]"
