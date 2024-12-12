@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import LoadingPage from "components/LoadingPage/LoadingPage";
-import axiosSecure from "../../../../../lib/axios";
+import axiosSecure from "lib/axios";
 import Image from "next/image";
 import Link from "next/link";
 import { MdEditSquare } from "react-icons/md";

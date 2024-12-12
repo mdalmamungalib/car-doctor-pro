@@ -7,7 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import DashBoardNavbar from "./DashBoardNavbar";
-import axiosSecure from "../../lib/axios";
+import axiosSecure from "lib/axios";
 import { useEffect, useState } from "react";
 export const dynamic = "force-dynamic";
 

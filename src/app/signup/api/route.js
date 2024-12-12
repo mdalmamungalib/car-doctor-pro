@@ -1,6 +1,6 @@
-import { connectDB } from "../../../lib/connectDB";
+import { connectDB } from "lib/connectDB";
 import bcrypt from "bcrypt";
-import { sendEmail } from "../../../lib/sendEmail";
+import { sendEmail } from "lib/sendEmail";
 export const dynamic = "force-dynamic";
 
 export const POST = async (request) => {

@@ -8,7 +8,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
-import axiosSecure from "../../../../../lib/axios";
+import axiosSecure from "lib/axios";
 import { useSession } from "next-auth/react";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";
 

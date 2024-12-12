@@ -1,6 +1,6 @@
 // app/api/products/route.js
 
-import { connectDB } from "../../../../../../../lib/connectDB";
+import { connectDB } from "lib/connectDB";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";

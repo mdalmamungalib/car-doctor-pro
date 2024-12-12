@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";
-import axiosSecure from "../../../../../lib/axios";
+import axiosSecure from "lib/axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";

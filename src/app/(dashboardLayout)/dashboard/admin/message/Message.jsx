@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import LoadingPage from "components/LoadingPage/LoadingPage";
-import axiosSecure from "../../../../../lib/axios";
+import axiosSecure from "lib/axios";
 import { RxCross2 } from "react-icons/rx";
 import Swal from "sweetalert2";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";

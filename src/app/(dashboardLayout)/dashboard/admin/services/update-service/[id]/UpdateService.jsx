@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import axiosSecure from "../../../../../../../lib/axios";
+import axiosSecure from "lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";

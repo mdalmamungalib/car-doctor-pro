@@ -6,7 +6,7 @@ import Link from "next/link";
 import SocialLogin from "components/SocialLogin/SocialLogin";
 import Swal from "sweetalert2";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import axiosSecure from "../../lib/axios";
+import axiosSecure from "lib/axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 

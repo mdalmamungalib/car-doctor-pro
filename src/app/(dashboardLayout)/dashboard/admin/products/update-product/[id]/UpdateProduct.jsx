@@ -1,5 +1,5 @@
 "use client";
-import axiosSecure from "../../../../../../../lib/axios";
+import axiosSecure from "lib/axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";

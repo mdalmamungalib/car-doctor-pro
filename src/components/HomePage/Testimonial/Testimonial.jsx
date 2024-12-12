@@ -11,7 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import HeadLayout from "components/shared/HeadLayout";
 import { useQuery } from "@tanstack/react-query";
-import axiosSecure from "../../../lib/axios";
+import axiosSecure from "lib/axios";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";

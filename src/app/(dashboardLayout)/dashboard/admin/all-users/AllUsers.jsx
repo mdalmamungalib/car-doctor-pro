@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import axiosSecure from "../../../../../lib/axios";
+import axiosSecure from "lib/axios";
 import Swal from "sweetalert2";
 import DashboardHeadImage from "components/shared/DashboardHeadImage";
 export const dynamic = "force-dynamic";
