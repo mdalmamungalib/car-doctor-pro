@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import Image from "next/image";
-import axiosSecure from "lib/axios";
+import axiosSecure from "../../../../../../../lib/axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import React from "react";

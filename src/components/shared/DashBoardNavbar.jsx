@@ -6,7 +6,7 @@ import { BsHandbag } from "react-icons/bs";
 import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import axiosSecure from "lib/axios";
+import axiosSecure from "../../lib/axios";
 import { useEffect, useState } from "react";
 
 export const dynamic = "force-dynamic";

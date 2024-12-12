@@ -10,7 +10,7 @@ import HeadImage from "components/HomePage/HeadImage";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import axiosSecure from "lib/axios";
+import axiosSecure from "../../lib/axios";
 
 export const dynamic = "force-dynamic";
 

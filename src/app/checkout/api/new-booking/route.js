@@ -1,5 +1,5 @@
-import { connectDB } from "lib/connectDB";
-import { sendEmail } from "lib/sendEmail"; 
+import { connectDB } from "../../../../lib/connectDB";
+import { sendEmail } from "../../../../lib/sendEmail"; 
 
 import { NextResponse } from "next/server";
 

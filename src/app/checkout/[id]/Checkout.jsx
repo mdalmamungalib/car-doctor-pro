@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import axiosSecure from "lib/axios";
+import axiosSecure from "../../../lib/axios";
 import { useState } from "react";
 export const dynamic = "force-dynamic";
 

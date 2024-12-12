@@ -3,7 +3,7 @@ import Card from "components/Card/Card";
 import Link from "next/link";
 import React from "react";
 import LoadingPage from "components/LoadingPage/LoadingPage";
-import axiosSecure from "lib/axios";
+import axiosSecure from "../../../lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import HeadLayout from "components/shared/HeadLayout";
 import AOS from 'aos';

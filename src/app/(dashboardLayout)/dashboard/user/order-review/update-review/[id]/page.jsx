@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import axiosSecure from "lib/axios";
+import axiosSecure from "../../../../../../../lib/axios";
 import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
