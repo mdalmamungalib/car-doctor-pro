@@ -15,7 +15,7 @@ const SingleService = ({ data: singleService }) => {
       description: "It uses a dictionary of over 200 .",
     },
     {
-      selection: "01",
+      selection: "02",
       title: "Step Two",
       description: "It uses a dictionary of over 200 .",
     },
@@ -128,7 +128,7 @@ const SingleService = ({ data: singleService }) => {
             {step.map((step, index) => (
               <div
                 key={index}
-                className="space-y-5 max-w-[235px] min-h[275px]  border-[1px] border-[#E8E8E8] rounded-[10px] p-[36px]"
+                className="space-y-5 max-w-[235px] min-h-[275px]  border-[1px] border-[#E8E8E8] rounded-[10px] p-[36px]"
               >
                 <div className="flex items-center justify-center">
                   <svg
@@ -143,7 +143,7 @@ const SingleService = ({ data: singleService }) => {
                       cy="41.5"
                       r="41.5"
                       fill="#FF3811"
-                      fill-opacity="0.1"
+                      fillOpacity="0.1" 
                     />
 
                     <circle

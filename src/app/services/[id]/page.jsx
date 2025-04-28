@@ -4,7 +4,7 @@ import SingleService from './SingleService';
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
-  const { id } = await params; 
+  const { id } = params; // Fixed: removed await
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/api/${id}`);
   if (!response.ok) {
@@ -34,13 +34,13 @@ export async function generateMetadata({ params }) {
       description: serviceDescription,
       images: [
         {
-          url: `https://yourwebsite.com/images/${serviceName.toLowerCase()}-service.jpg`, 
+          url: `https://car-doctor.com/images/${serviceName.toLowerCase()}-service.jpg`, 
           width: 1200,
           height: 630,
           alt: `${serviceName} Service Image`,
         },
       ],
-      url: `https://yourwebsite.com/services/${id}`, 
+      url: `https://car-doctor.com/services/${id}`, 
       type: "website",
       site_name: "Car Doctor",
     },
@@ -53,8 +53,9 @@ const page = async ({ params }) => {
     throw new Error('Failed to fetch service data');
   }
   const data = await response.json();
+  
   return (
-    <SingleService  data={data}/>
+    <SingleService data={data} />
   );
 };
 
