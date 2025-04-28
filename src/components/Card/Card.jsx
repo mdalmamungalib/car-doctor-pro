@@ -5,6 +5,9 @@ import { FaArrowRight } from "react-icons/fa";
 export const dynamic = "force-dynamic";
 
 const Card = ({ service }) => {
+  if (!service) {
+    return <div>Service not available</div>;
+  }
   const { price, img, title, _id } = service;
   return (
     <div className="bg-white border border-gray-200 rounded-lg max-w-full sm:max-w-[300px] md:max-w-[340px] lg:max-w-[364px] min-h-[348px] mx-auto">

@@ -10,22 +10,32 @@ const axiosSecure = axios.create({
 });
 
 axiosSecure.interceptors.response.use(
-  (response) => response, async (error) => {
-    if (
-      error.response &&
-      (error.response.status === 401 ||
-        error.response.status === 403)
-    ) {
-      await signOut({ redirect: false });
-      Swal.fire({
-        icon: "error",
-        title: "Unauthorized!",
-        text: "Please log in again.",
-      });
-      if (typeof window !== "undefined") {
-        window.location.href = "/login";
+  (response) => response,
+  async (error) => {
+    if (error.response) {
+      // Handle 401 or 403 errors
+      if (error.response.status === 401 || error.response.status === 403) {
+        await signOut({ redirect: false });
+        Swal.fire({
+          icon: "error",
+          title: "Unauthorized!",
+          text: "Please log in again.",
+        });
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
+      }
+
+      // Handle other errors (e.g., server error 500)
+      else if (error.response.status === 500) {
+        Swal.fire({
+          icon: "error",
+          title: "Server Error!",
+          text: "Something went wrong. Please try again later.",
+        });
       }
     }
+
     return Promise.reject(error);
   }
 );

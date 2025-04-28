@@ -6,9 +6,8 @@ import axiosSecure from "lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import LoadingPage from "components/LoadingPage/LoadingPage";
 import { FaSearch } from "react-icons/fa";
+
 export const dynamic = "force-dynamic";
-
-
 
 const Services = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,17 +20,17 @@ const Services = () => {
   } = useQuery({
     queryKey: ["services"],
     queryFn: async () => {
-      const response = await axiosSecure.get(
-        `/services/api/get-all`
-      );
+      const response = await axiosSecure.get("/services/api/get-all");
       return response.data.services;
     },
   });
+
   if (isLoading) {
     return <LoadingPage />;
   }
 
   if (isError) {
+    console.error("Error fetching services:", error); // Log for debugging
     return (
       <p className="mt-12 text-center text-red-500">
         Error: {error.message}
@@ -57,6 +56,7 @@ const Services = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-md bg-white pl-10 w-full focus:outline-none focus:border-[#FF3811] transition duration-300 ease-in-out"
+            aria-label="Search services" // Add aria-label for accessibility
           />
           <FaSearch className="absolute text-gray-500 transform -translate-y-1/2 top-1/2 left-3" />
         </div>
